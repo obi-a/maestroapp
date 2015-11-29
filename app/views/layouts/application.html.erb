@@ -13,8 +13,27 @@
   </head>
 
   <body>
+    <nav class="top-bar" data-topbar role="navigation">
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="#">Maestro</a></h1>
+        </li>
+      </ul>
 
+      <section class="top-bar-section">
+        <!-- Right Nav Section -->
+        <ul class="right">
+
+          <% if user_signed_in? %>
+            <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
+          <% else %>
+            <li <%if @current_page == :about %> class="active" <% end %> ><a href="#">About</a></li>
+            <li <%if @current_page == :signup %> class="active" <% end %> ><a href="<%= signup_path %>">Sign up</a></li>
+            <li <%if @current_page == :signin %> class="active" <% end %>><a href="<%= signin_path %>">Sign in</a></li>
+          <% end %>
+        </ul>
+      </section>
+    </nav>
     <%= yield %>
-
   </body>
 </html>
