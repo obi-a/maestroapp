@@ -1,4 +1,14 @@
 Rails.application.routes.draw do
+  namespace :admin do
+    DashboardManifest::DASHBOARDS.each do |dashboard_resource|
+      resources dashboard_resource
+    end
+
+    root controller: DashboardManifest::ROOT_DASHBOARD, action: :index
+  end
+
+  get 'dashboard/index'
+
   get 'pages/home'
 
   get 'pages/about'
@@ -16,14 +26,20 @@ Rails.application.routes.draw do
   end
 
   devise_scope :user do
-    delete "/signout" => "devise/sessions#destroy"
+    get "/signup" => "devise/registrations#new"
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root "pages#home"
+  #root 'dashboard#index'
+  authenticated :user do
+    root to: "dashboard#index", as: :authenticated_root
+  end
+  unauthenticated do
+    root to: "pages#home", as: :unauthenticated_root
+  end
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
