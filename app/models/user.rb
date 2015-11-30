@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many :ragios_monitors
   before_create :set_role
   rolify
   # Include default devise modules. Others available are:

@@ -11,10 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151129053432) do
+ActiveRecord::Schema.define(version: 20151130041110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "ragios_monitors", force: :cascade do |t|
+    t.string   "title"
+    t.text     "description"
+    t.string   "url"
+    t.decimal  "duration"
+    t.string   "contact"
+    t.string   "ragiosid"
+    t.string   "type"
+    t.text     "code"
+    t.text     "monitor_json"
+    t.integer  "user_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+  end
+
+  add_index "ragios_monitors", ["user_id"], name: "index_ragios_monitors_on_user_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -59,4 +76,5 @@ ActiveRecord::Schema.define(version: 20151129053432) do
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
 
+  add_foreign_key "ragios_monitors", "users"
 end

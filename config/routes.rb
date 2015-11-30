@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     root controller: DashboardManifest::ROOT_DASHBOARD, action: :index
   end
 
+  resources :ragios_monitors
+
   get 'dashboard/index'
 
   get 'pages/home'
