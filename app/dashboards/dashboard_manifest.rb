@@ -12,6 +12,7 @@ class DashboardManifest
   DASHBOARDS = [
     :users,
     :roles,
+    :ragios_monitors
   ]
 
   # `ROOT_DASHBOARD`
