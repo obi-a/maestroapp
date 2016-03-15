@@ -1,5 +1,23 @@
-<h1>New Ragios Monitor</h1>
+<div class="row">
+  <div class="columns">
+    <h1>Create New Monitor</h1>
+  </div>
+  <div class="columns">
+    <ul class="tabs" data-tab>
+      <li class="tab-title active"><a href="#panel1">Smart monitor</a></li>
+      <li class="tab-title"><a href="#panel2">URL Monitor</a></li>
+    </ul>
+    <div class="tabs-content">
+      <div class="content active" id="panel1">
+        <p>This is the first panel of the basic tab example. You can place all sorts of content here including a grid.</p>
+      </div>
+      <div class="content" id="panel2">
+        <p>This is the second panel of the basic tab example. This is the second panel of the basic tab example.</p>
+      </div>
+    </div>
+  <div>
 
-<%= render 'form' %>
+  <%= render 'form' %>
 
-<%= link_to 'Back', ragios_monitors_path %>
+  <%= link_to 'Back', dashboard_index_path %>
+</div>
