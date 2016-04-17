@@ -25,6 +25,7 @@
         <ul class="right">
 
           <% if user_signed_in? %>
+            <li><%= link_to "Notifications", "" %></li>
             <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
           <% else %>
             <li <%if @current_page == :about %> class="active" <% end %> ><a href="#">About</a></li>
