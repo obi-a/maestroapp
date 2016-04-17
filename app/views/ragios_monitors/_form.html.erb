@@ -1,4 +1,4 @@
-<%= form_for(@ragios_monitor) do |f| %>
+<%= form_for(@ragios_monitor, html: { data: { abide: '' }}) do |f| %>
   <% if @ragios_monitor.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@ragios_monitor.errors.count, "error") %> prohibited this ragios_monitor from being saved:</h2>
@@ -12,14 +12,16 @@
 
   <div class="row">
     <div class="columns small-6">
-      <label>Title
-        <input type="text" name="title" />
+      <label>Title <small>required</small>
+        <input type="text" name="title" required>
       </label>
+      <small class="error">A Title is required.</small>
     </div>
     <div class="columns small-6">
-      <label>URL
-        <input type="text" name="url" />
+      <label>URL <small>required</small>
+        <input type="text" name="url" required>
       </label>
+      <small class="error">A URL is required</small>
     </div>
   </div>
 
@@ -27,19 +29,14 @@
     <div class="columns medium-6">
       <label>Run this monitor every?
         <div class="row">
-          <div class="columns small-4">
+          <div class="columns small-6">
             <label>Hours
               <input type="number" name="hours" placeholder="0" />
             </label>
           </div>
-          <div class="columns small-4">
+          <div class="columns small-6">
             <label>Minutes
-              <input type="number" name="minutes" placeholder="0" />
-            </label>
-          </div>
-          <div class="columns small-4">
-            <label>Seconds
-              <input type="number" name="seconds" placeholder="0" />
+              <input type="number" name="minutes" value="5" />
             </label>
           </div>
         </div>
@@ -52,25 +49,19 @@
     </div>
   </div>
 
-  <div class="row">
-    <div class="columns">
-      <label>Validations & Actions
-        <div id="editor" name="code"></div>
-      </label>
+  <div id="validations">
+    <div class="row">
+      <div class="columns">
+        <label>Validations & Actions
+          <div id="editor" name="code"></div>
+        </label>
+      </div>
     </div>
   </div>
 
-  <div class="row">
+  <div class="row" style="margin-top:15px;">
     <div class="columns">
-      <label>Notes
-        <textarea name="notes"></textarea>
-      </label>
-    </div>
-  </div>
-  <div class="row">
-    <div class="columns">
-      <button> Submit </button>
+      <button id="submit-monitor"> Submit </button>
     </div>
   </div>
 <% end %>
-

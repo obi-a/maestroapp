@@ -21,6 +21,10 @@ class RagiosMonitorsController < ApplicationController
 
   # POST /ragios_monitors
   def create
+
+  #{"title"=>"test", "url"=>"http://slack-hn.herokuapp.com/hn", "hours"=>"", "minutes"=>"5", "monitor_type"=>"http_check"}
+
+    #if params[:monitor_type].to_sym == :http_check
     @ragios_monitor = RagiosMonitor.new(ragios_monitor_params)
 
     if @ragios_monitor.save
