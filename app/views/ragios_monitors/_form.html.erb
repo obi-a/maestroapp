@@ -2,61 +2,75 @@
   <% if @ragios_monitor.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@ragios_monitor.errors.count, "error") %> prohibited this ragios_monitor from being saved:</h2>
-
       <ul>
-      <% @ragios_monitor.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% @ragios_monitor.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :title %><br>
-    <%= f.text_field :title %>
+  <div class="row">
+    <div class="columns small-6">
+      <label>Title
+        <input type="text" name="title" />
+      </label>
+    </div>
+    <div class="columns small-6">
+      <label>URL
+        <input type="text" name="url" />
+      </label>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_area :description %>
+
+  <div class="row">
+    <div class="columns medium-6">
+      <label>Run this monitor every?
+        <div class="row">
+          <div class="columns small-4">
+            <label>Hours
+              <input type="number" name="hours" placeholder="0" />
+            </label>
+          </div>
+          <div class="columns small-4">
+            <label>Minutes
+              <input type="number" name="minutes" placeholder="0" />
+            </label>
+          </div>
+          <div class="columns small-4">
+            <label>Seconds
+              <input type="number" name="seconds" placeholder="0" />
+            </label>
+          </div>
+        </div>
+      </label>
+    </div>
+    <div class="columns medium-6">
+      <label>Monitor Type</label>
+      <input type="radio" name="monitor_type" value="http_check" id="http_check"><label for="http_check">Http check</label>
+      <input type="radio" name="monitor_type" value="real_browser_monitor" id="real_browser_monitor" checked="checked"><label for="real_browser_monitor">Real Browser Monitor</label>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :url %><br>
-    <%= f.text_field :url %>
+
+  <div class="row">
+    <div class="columns">
+      <label>Validations & Actions
+        <textarea name="code"></textarea>
+      </label>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :duration %><br>
-    <%= f.text_field :duration %>
+
+  <div class="row">
+    <div class="columns">
+      <label>Notes
+        <textarea name="notes"></textarea>
+      </label>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :contact %><br>
-    <%= f.text_field :contact %>
-  </div>
-  <div class="field">
-    <%= f.label :ragiosid %><br>
-    <%= f.text_field :ragiosid %>
-  </div>
-  <div class="field">
-    <%= f.label :type %><br>
-    <%= f.text_field :type %>
-  </div>
-  <div class="field">
-    <%= f.label :code %><br>
-    <%= f.text_area :code %>
-  </div>
-  <div class="field">
-    <%= f.label :type %><br>
-    <%= f.text_field :type %>
-  </div>
-  <div class="field">
-    <%= f.label :monitor_json %><br>
-    <%= f.text_area :monitor_json %>
-  </div>
-  <div class="field">
-    <%= f.label :user_id %><br>
-    <%= f.text_field :user_id %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
+  <div class="row">
+    <div class="columns">
+      <button> Submit </button>
+    </div>
   </div>
 <% end %>
 
