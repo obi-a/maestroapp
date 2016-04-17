@@ -25,7 +25,12 @@ class RagiosMonitorsController < ApplicationController
   #{"title"=>"test", "url"=>"http://slack-hn.herokuapp.com/hn", "hours"=>"", "minutes"=>"5", "monitor_type"=>"http_check"}
 
     #if params[:monitor_type].to_sym == :http_check
-    @ragios_monitor = RagiosMonitor.new(ragios_monitor_params)
+    #@ragios_monitor = RagiosMonitor.new(ragios_monitor_params)
+
+    @ragios_monitor = RagiosMonitor.new(
+      url: params[:url],
+      title: params[:title]
+    )
 
     if @ragios_monitor.save
       redirect_to @ragios_monitor, notice: 'Ragios monitor was successfully created.'
