@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem "administrate", "~> 0.1.1"
+gem 'codemirror-rails'
 gem 'devise'
 gem 'foundation-rails'
 gem 'rails', '4.2.4'
