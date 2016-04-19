@@ -4,13 +4,12 @@ class CreateRagiosMonitors < ActiveRecord::Migration
       t.string :title
       t.text :description
       t.string :url
-      t.decimal :duration
-      t.string :contact
+      t.decimal :time_interval
       t.string :ragiosid
-      t.string :type
       t.text :code
       t.string :type
       t.text :monitor_json
+      t.integer :status, default: 0
       t.references :user, index: true, foreign_key: true
 
       t.timestamps null: false

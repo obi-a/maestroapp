@@ -20,15 +20,15 @@ ActiveRecord::Schema.define(version: 20151130041110) do
     t.string   "title"
     t.text     "description"
     t.string   "url"
-    t.decimal  "duration"
-    t.string   "contact"
+    t.decimal  "time_interval"
     t.string   "ragiosid"
-    t.string   "type"
     t.text     "code"
+    t.string   "type"
     t.text     "monitor_json"
+    t.integer  "status",        default: 0
     t.integer  "user_id"
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   add_index "ragios_monitors", ["user_id"], name: "index_ragios_monitors_on_user_id", using: :btree
