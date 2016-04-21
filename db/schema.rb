@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20151130041110) do
     t.decimal  "time_interval"
     t.string   "ragiosid"
     t.text     "code"
-    t.string   "type"
+    t.string   "monitor_type"
     t.text     "monitor_json"
     t.integer  "status",        default: 0
     t.integer  "user_id"
