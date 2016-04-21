@@ -29,11 +29,11 @@ class RagiosMonitorsController < ApplicationController
         url: params[:url],
         title: params[:title],
         time_interval: "#{params[:hours].to_i}h#{params[:minutes].to_i}m",
-        type: "url_monitor",
+        monitor_type: "url_monitor"
       )
-      @monitor.user = current_user
-      @monitor.save!
-      #send pass monitor.id to sidekiq worker to create the monitor inside ragios
+      @raagios_monitor.user = current_user
+      @ragios_monitor.save!
+      UrlMonitorCreationJob.perform_later(@ragios_monitor.id)
     end
 
     if @ragios_monitor.save
