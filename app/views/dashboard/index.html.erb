@@ -11,39 +11,32 @@
       <a href="<%= new_ragios_monitor_path %>" class="button small">Create Monitor</a>
     </div>
   </div>
-</div>
 
-<div class="row">
   <div class="column">
-    <table>
+    <table width="100%">
       <thead>
         <tr>
-          <th width="200">Table Header</th>
-          <th>Table Header</th>
-          <th width="150">Table Header</th>
-          <th width="150">Table Header</th>
+          <th>Created at</th>
+          <th>Monitor</th>
+          <th>URL</th>
+          <th>Every</th>
+          <th>Type</th>
+          <th>Status</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>Content Goes Here</td>
-          <td>This is longer content Donec id elit non mi porta gravida at eget metus.</td>
-          <td>Content Goes Here</td>
-          <td>Content Goes Here</td>
-        </tr>
-        <tr>
-          <td>Content Goes Here</td>
-          <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-          <td>Content Goes Here</td>
-          <td>Content Goes Here</td>
-        </tr>
-        <tr>
-          <td>Content Goes Here</td>
-          <td>This is longer Content Goes Here Donec id elit non mi porta gravida at eget metus.</td>
-          <td>Content Goes Here</td>
-          <td>Content Goes Here</td>
-        </tr>
+        <% @ragios_monitors.each do |ragios_monitor| %>
+          <tr>
+            <td><%= ragios_monitor.created_at.to_formatted_s(:long) %></td>
+            <td><%= ragios_monitor.title %></td>
+            <td><%= ragios_monitor.url %></td>
+            <td><%= "#{ragios_monitor.hours} hours, #{ragios_monitor.minutes} minutes" %></td>
+            <td><%= ragios_monitor.monitor_type %></td>
+            <td><%= monitor_status(ragios_monitor.status.to_i) %></td>
+          </tr>
+        <% end %>
       </tbody>
     </table>
   </div>
+
 </div>

@@ -3,7 +3,7 @@ class RagiosMonitorsController < ApplicationController
 
   # GET /ragios_monitors
   def index
-    @ragios_monitors = RagiosMonitor.all
+    @ragios_monitors = RagiosMonitor.where(user_id: current_user)
   end
 
   # GET /ragios_monitors/1
@@ -21,23 +21,20 @@ class RagiosMonitorsController < ApplicationController
 
   # POST /ragios_monitors
   def create
-
-  #{"title"=>"test", "url"=>"http://slack-hn.herokuapp.com/hn", "hours"=>"", "minutes"=>"5", "monitor_type"=>"http_check"}
-
     if params[:monitor_type].to_sym == :http_check
       @ragios_monitor = RagiosMonitor.new(
         url: params[:url],
         title: params[:title],
-        time_interval: "#{params[:hours].to_i}h#{params[:minutes].to_i}m",
+        hours: params[:hours].to_i,
+        minutes: params[:minutes].to_i,
         monitor_type: "url_monitor"
       )
-      @raagios_monitor.user = current_user
-      @ragios_monitor.save!
-      UrlMonitorCreationJob.perform_later(@ragios_monitor.id)
+      @ragios_monitor.user = current_user
     end
 
     if @ragios_monitor.save
-      redirect_to @ragios_monitor, notice: 'Ragios monitor was successfully created.'
+      UrlMonitorCreationJob.perform_later(@ragios_monitor.id)
+      redirect_to dashboard_index_path, notice: 'Ragios monitor was successfully created.'
     else
       render :new
     end

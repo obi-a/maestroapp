@@ -5,38 +5,23 @@
 <table>
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Description</th>
-      <th>Url</th>
-      <th>Duration</th>
-      <th>Contact</th>
-      <th>Ragiosid</th>
-      <th>String</th>
-      <th>Code</th>
+      <th>Created at</th>
+      <th>Monitor</th>
+      <th>URL</th>
+      <th>Time Interval</th>
       <th>Type</th>
-      <th>Monitor json</th>
-      <th>User</th>
-      <th colspan="3"></th>
+      <th colspan="3">Status</th>
     </tr>
   </thead>
-
   <tbody>
     <% @ragios_monitors.each do |ragios_monitor| %>
       <tr>
+        <td><%= ragios_monitor.created_at %></td>
         <td><%= ragios_monitor.title %></td>
-        <td><%= ragios_monitor.description %></td>
         <td><%= ragios_monitor.url %></td>
-        <td><%= ragios_monitor.duration %></td>
-        <td><%= ragios_monitor.contact %></td>
-        <td><%= ragios_monitor.ragiosid %></td>
-        <td><%= ragios_monitor.string %></td>
-        <td><%= ragios_monitor.code %></td>
-        <td><%= ragios_monitor.type %></td>
-        <td><%= ragios_monitor.monitor_json %></td>
-        <td><%= ragios_monitor.user %></td>
-        <td><%= link_to 'Show', ragios_monitor %></td>
-        <td><%= link_to 'Edit', edit_ragios_monitor_path(ragios_monitor) %></td>
-        <td><%= link_to 'Destroy', ragios_monitor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= ragios_monitor.time_interval %></td>
+        <td><%= ragios_monitor.monitor_type %></td>
+        <td><%= ragios_monitor.status.to_i %></td>
       </tr>
     <% end %>
   </tbody>
