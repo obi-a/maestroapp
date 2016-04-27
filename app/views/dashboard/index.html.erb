@@ -25,14 +25,14 @@
         </tr>
       </thead>
       <tbody>
-        <% @ragios_monitors.each do |ragios_monitor| %>
+        <% @monitors.each do |monitor| %>
           <tr>
-            <td><%= ragios_monitor.created_at.to_formatted_s(:long) %></td>
-            <td><%= ragios_monitor.title %></td>
-            <td><%= ragios_monitor.url %></td>
-            <td><%= "#{ragios_monitor.hours} hours, #{ragios_monitor.minutes} minutes" %></td>
-            <td><%= ragios_monitor.monitor_type %></td>
-            <td><%= monitor_status(ragios_monitor.status.to_i) %></td>
+            <td><%= monitor.created_at.to_formatted_s(:long) %></td>
+            <td><%= link_to monitor.title, monitor_dashboard_path(monitor) %></td>
+            <td><%= monitor.url %></td>
+            <td><%= "#{monitor.hours} hours, #{monitor.minutes} minutes" %></td>
+            <td><%= monitor.monitor_type %></td>
+            <td><%= monitor_status(monitor.status.to_i) %></td>
           </tr>
         <% end %>
       </tbody>

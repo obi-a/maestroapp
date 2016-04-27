@@ -9,7 +9,15 @@ Rails.application.routes.draw do
 
   resources :ragios_monitors
 
-  get 'dashboard/index'
+  #get 'dashboard/index'
+
+  #get 'dashboard/monitor'
+
+  resources :dashboard, only: [:index] do
+    member do
+      get :monitor
+    end
+  end
 
   get 'pages/home'
 
