@@ -13,6 +13,8 @@ class RagiosMonitorsController < ApplicationController
   # GET /ragios_monitors/new
   def new
     @ragios_monitor = RagiosMonitor.new
+    add_breadcrumb "All Monitors", dashboard_index_path
+    add_breadcrumb "Add New Monitor", new_ragios_monitor_path
   end
 
   # GET /ragios_monitors/1/edit

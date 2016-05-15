@@ -16,6 +16,9 @@ gem 'turbolinks'
 gem 'jquery-turbolinks'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'ragios-client'
+gem 'breadcrumbs_on_rails'
+gem 'foundation-icons-sass-rails'
+gem 'jquery-datatables-rails', '~> 3.3.0'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

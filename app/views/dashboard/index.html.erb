@@ -1,14 +1,14 @@
 <div class="row">
   <div class="column">
-    <h1>Dashboard</h1>
-    <p>Welcome <%= current_user.firstname %></p>
+    <ul class="breadcrumbs">
+      <%= render_breadcrumbs :tag => :li, :separator => "" %>
+    </ul>
   </div>
 </div>
-
 <div class="row">
   <div class="column">
     <div class="panel">
-      <a href="<%= new_ragios_monitor_path %>" class="button small">Create Monitor</a>
+      <a href="<%= new_ragios_monitor_path %>" class="button tiny"><i class="fi-plus icon"></i>Add New Monitor</a>
     </div>
   </div>
 
@@ -38,5 +38,5 @@
       </tbody>
     </table>
   </div>
-
 </div>
+
