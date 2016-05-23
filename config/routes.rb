@@ -7,7 +7,13 @@ Rails.application.routes.draw do
     root controller: DashboardManifest::ROOT_DASHBOARD, action: :index
   end
 
-  resources :ragios_monitors
+  resources :ragios_monitors do
+    collection do
+      get :events
+      get :find
+      post :test
+    end
+  end
 
   #get 'dashboard/index'
 

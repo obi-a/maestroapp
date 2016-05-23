@@ -1,5 +1,7 @@
 class RagiosMonitorsController < ApplicationController
-  before_action :set_ragios_monitor, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!
+  before_action :set_ragios_monitor, only: [:edit, :update, :show, :destroy]
+  before_action :set_client, only: [:events, :find, :test]
 
   # GET /ragios_monitors
   def index
@@ -19,6 +21,11 @@ class RagiosMonitorsController < ApplicationController
 
   # GET /ragios_monitors/1/edit
   def edit
+  end
+
+  def find
+    response = @client.find(params[:ragios_id])
+    render json: response.to_json
   end
 
   # POST /ragios_monitors
@@ -42,6 +49,24 @@ class RagiosMonitorsController < ApplicationController
     end
   end
 
+  def stop
+
+  end
+
+  def test
+    response = @client.test(params[:ragios_id])
+    render json: response.to_json
+  end
+
+  def start
+    #@client.restart(params[:id])
+  end
+
+  def events
+    response = @client.events(params[:ragios_id], "1980","2040", 50)
+    render json: response.to_json
+  end
+
   # PATCH/PUT /ragios_monitors/1
   def update
     if @ragios_monitor.update(ragios_monitor_params)
@@ -61,6 +86,10 @@ class RagiosMonitorsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_ragios_monitor
       @ragios_monitor = RagiosMonitor.find(params[:id])
+    end
+
+    def set_client
+      @client ||= Ragios::Client.new
     end
 
     # Only allow a trusted parameter "white list" through.
