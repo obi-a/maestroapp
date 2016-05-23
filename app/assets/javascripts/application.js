@@ -19,6 +19,11 @@
 //= require turbolinks
 //= require codemirror
 //= require codemirror/modes/ruby
+//= require underscore-min
+//= require backbone-min
+//= require moment-with-locales.min
+//= require ragios_helper
+//= require ragios_client
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
