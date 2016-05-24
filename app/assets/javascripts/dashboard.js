@@ -5,17 +5,23 @@ $(function() {
     return $("#monitor-info").data("monitor-id");
   });
   var vent = _.extend({}, Backbone.Events);
-  var eventsUrl =  $("#monitor-info").data("events-url");
+  var eventsUrl = $("#monitor-info").data("events-url");
   var monitorUrl = $("#monitor-info").data("monitor-url");
   var testUrl = $("#monitor-info").data("test-url");
+  var startUrl = $("#monitor-info").data("start-url");
+  var stopUrl = $("#monitor-info").data("stop-url");
+  var deleteUrl = $("#monitor-info").data("delete-url");
+  var dashboardUrl = $("#monitor-info").data("dashboardUrl");
 
   var Util = {
     init: function () {
       this.message = $("#message");
-      _.templateSettings = {
-        interpolate: /\{\{(.+?)\}\}/g
-      };
-      this.messageTemplate = _.template( $('#message-template').html() );
+	      if(this.message.length > 0) {
+	      _.templateSettings = {
+	        interpolate: /\{\{(.+?)\}\}/g
+	      };
+	      this.messageTemplate = _.template( $('#message-template').html() );
+      }
     },
     success: function (data) {
       Util.message.append(
@@ -55,12 +61,12 @@ $(function() {
     },
     start: function () {
       if( ragiosHelper.confirm("Are you sure you want to start this monitor?") ) {
-        ragios.start( getMonitorId(), Util.success, Util.error );
+        ragios.start( startUrl, Util.success, Util.error );
       }
     },
     stop: function () {
       if( ragiosHelper.confirm("Are you sure you want to stop this monitor?") ) {
-        ragios.stop( getMonitorId(), Util.success, Util.error );
+        ragios.stop( stopUrl, Util.success, Util.error );
       }
     },
     test: function () {
@@ -71,9 +77,9 @@ $(function() {
     delete: function () {
       if( ragiosHelper.confirm("Are you sure you want to delete this monitor?") ) {
         var deleteSuccess = function () {
-          ragiosHelper.back_to_index();
+          ragiosHelper.redirect_to(dashboardUrl);
         };
-        ragios.delete( getMonitorId(), deleteSuccess, Util.error );
+        ragios.delete( deleteUrl, deleteSuccess, Util.error );
       }
     }
   };
@@ -154,7 +160,6 @@ $(function() {
       });
     }
   });
-
 
   $( "#start-button" ).on("click", function() { monitor.start(); });
   $( "#stop-button" ).on("click", function() { monitor.stop(); });

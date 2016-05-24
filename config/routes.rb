@@ -12,6 +12,8 @@ Rails.application.routes.draw do
       get :events
       get :find
       post :test
+      put :start
+      put :stop
     end
   end
 

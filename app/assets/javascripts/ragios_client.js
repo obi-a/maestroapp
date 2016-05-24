@@ -3,26 +3,25 @@ var ragios = {
       $.ajax(options);
     },
 
-    start : function(monitor_id, success, error) {
-        this.request({
-            type: "PUT",
-            url: "/monitors/" + monitor_id + "?status=active",
-            success: success,
-            error: error
-        });
+    start : function(url, success, error) {
+      this.request({
+        type: "PUT",
+        url: url,
+        success: success,
+        error: error
+      });
     },
 
-    stop : function(monitor_id, success, error) {
-        this.request({
-            type: "PUT",
-            url: "/monitors/" + monitor_id + "?status=stopped",
-            success: success,
-            error: error
-        });
+    stop : function(url, success, error) {
+      this.request({
+        type: "PUT",
+        url: url,
+        success: success,
+        error: error
+      });
     },
 
     test : function(url, success, error) {
-      //var data = {id: monitor_id};
       this.request({
         type: "POST",
         url: url,
@@ -41,13 +40,13 @@ var ragios = {
         });
     },
 
-    delete : function(monitor_id, success, error) {
-        this.request({
-            type: "DELETE",
-            url: "/monitors/" + monitor_id,
-            success: success,
-            error: error
-        });
+    delete : function(url, success, error) {
+      this.request({
+        type: "DELETE",
+        url: url,
+        success: success,
+        error: error
+      });
     },
 
     delete_event : function(event_id, success, error) {

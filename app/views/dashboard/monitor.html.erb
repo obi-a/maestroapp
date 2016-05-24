@@ -1,4 +1,12 @@
-<span class="hide" id="monitor-info" data-monitor-id="<%= @monitor.ragiosid %>"  data-events-url="<%= events_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>" data-monitor-url="<%= find_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>" data-test-url="<%= test_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"></span>
+<span class="hide" id="monitor-info" data-monitor-id="<%= @monitor.ragiosid %>"
+  data-events-url="<%= events_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"
+  data-monitor-url="<%= find_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"
+  data-test-url="<%= test_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"
+  data-start-url="<%= start_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"
+  data-stop-url="<%= stop_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"
+  data-delete-url="<%= ragios_monitor_path(@monitor.id) %>"
+  data-dashboard-url="<%= dashboard_index_path %>">
+</span>
 <div class="row">
   <div class="column">
     <ul class="breadcrumbs">
@@ -11,11 +19,11 @@
   <div class="columns">
     <span id="message"></span>
     <script id="message-template" type="text/template">
-      <div class="alert alert-dismissable alert-{{ alert }}">
-        <button type="button" class="close" data-dismiss="alert">×</button>
-        <h4>{{ message }}!</h4>
-        <p>{{ response }}</p>
-      </div>
+    <div data-alert class="alert-box {{ alert }}">
+      <div>{{ message }}!</div>
+      <div>{{ response }}</div>
+      <a href="#" class="close">&times;</a>
+    </div>
     </script>
   </div>
 </div>
@@ -77,12 +85,11 @@
 
                 <div class="row">
                   <div class="columns">
-                    <a href="#" class="button tiny"><i class="fi-save icon"></i>Update Monitor</a>
+                    <a id="update-monitor-button" href="#" class="button tiny"><i class="fi-save icon"></i>Update Monitor</a>
                     <a id="test-button" href="#" class="button tiny"><i class="fi-results icon"></i>Test Monitor</a>
-                    <a href="#" class="button tiny"><i class="fi-play icon"></i>Start Monitor</a>
-                    <a href="#" class="button tiny"><i class="fi-stop icon"></i>Stop Monitor</a>
-                    <a href="#" class="button tiny"><i class="fi-trash icon"></i>Delete Monitor</a>
-
+                    <a id="start-button" href="#" class="button tiny"><i class="fi-play icon"></i>Start Monitor</a>
+                    <a id="stop-button" href="#" class="button tiny"><i class="fi-stop icon"></i>Stop Monitor</a>
+                    <a id="delete-button" href="#" class="button tiny"><i class="fi-trash icon"></i>Delete Monitor</a>
                   </div>
                 </div>
 

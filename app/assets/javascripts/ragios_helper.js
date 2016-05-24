@@ -9,10 +9,6 @@ var ragiosHelper = {
         window.location.replace( path );
     },
 
-    back_to_index: function() {
-        this.redirect_to( "/admin/index" );
-    },
-
     formatResults: function (result) {
       try{
         return _.reduce(_.pairs(result), function( memo, pair ) {

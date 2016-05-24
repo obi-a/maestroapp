@@ -1,7 +1,7 @@
 class RagiosMonitorsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_ragios_monitor, only: [:edit, :update, :show, :destroy]
-  before_action :set_client, only: [:events, :find, :test]
+  before_action :set_client, only: [:events, :find, :test, :stop, :start, :destroy]
 
   # GET /ragios_monitors
   def index
@@ -50,7 +50,8 @@ class RagiosMonitorsController < ApplicationController
   end
 
   def stop
-
+    response = @client.stop(params[:ragios_id])
+    render json: response.to_json
   end
 
   def test
@@ -59,7 +60,8 @@ class RagiosMonitorsController < ApplicationController
   end
 
   def start
-    #@client.restart(params[:id])
+    response = @client.start(params[:ragios_id])
+    render json: response.to_json
   end
 
   def events
@@ -78,8 +80,9 @@ class RagiosMonitorsController < ApplicationController
 
   # DELETE /ragios_monitors/1
   def destroy
+    response = @client.delete(@ragios_monitor.ragiosid)
     @ragios_monitor.destroy
-    redirect_to ragios_monitors_url, notice: 'Ragios monitor was successfully destroyed.'
+    render json: response.to_json
   end
 
   private
