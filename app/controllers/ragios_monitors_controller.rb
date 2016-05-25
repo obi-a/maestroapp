@@ -1,7 +1,7 @@
 class RagiosMonitorsController < ApplicationController
   before_filter :authenticate_user!
-  before_action :set_ragios_monitor, only: [:edit, :update, :show, :destroy]
-  before_action :set_client, only: [:events, :find, :test, :stop, :start, :destroy]
+  before_action :set_ragios_monitor, only: [:edit, :update, :show, :find, :destroy]
+  before_action :set_client, only: [:events, :find, :test, :stop, :start, :update, :destroy]
 
   # GET /ragios_monitors
   def index
@@ -25,6 +25,7 @@ class RagiosMonitorsController < ApplicationController
 
   def find
     response = @client.find(params[:ragios_id])
+    response[:hours], response[:minutes] = @ragios_monitor.hours, @ragios_monitor.minutes
     render json: response.to_json
   end
 
@@ -71,11 +72,14 @@ class RagiosMonitorsController < ApplicationController
 
   # PATCH/PUT /ragios_monitors/1
   def update
-    if @ragios_monitor.update(ragios_monitor_params)
-      redirect_to @ragios_monitor, notice: 'Ragios monitor was successfully updated.'
-    else
-      render :edit
-    end
+    response = @client.update(
+      @ragios_monitor.ragiosid,
+      url: params[:url],
+      every: "#{params[:hours]}h#{params[:minutes]}m",
+      monitor: params[:title]
+    )
+    @ragios_monitor.update(ragios_monitor_params)
+    render json: response.to_json
   end
 
   # DELETE /ragios_monitors/1
@@ -97,6 +101,6 @@ class RagiosMonitorsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def ragios_monitor_params
-      params.require(:ragios_monitor).permit(:title, :description, :url, :duration, :contact, :ragiosid, :string, :code, :type, :monitor_json, :user_id)
+      params.require(:ragios_monitor).permit(:title, :description, :url, :hours, :minutes, :ragiosid, :string, :code, :type, :monitor_json, :user_id)
     end
 end

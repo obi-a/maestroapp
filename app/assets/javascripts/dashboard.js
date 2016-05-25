@@ -6,22 +6,21 @@ $(function() {
   });
   var vent = _.extend({}, Backbone.Events);
   var eventsUrl = $("#monitor-info").data("events-url");
-  var monitorUrl = $("#monitor-info").data("monitor-url");
+  var findMonitorUrl = $("#monitor-info").data("find-monitor-url");
   var testUrl = $("#monitor-info").data("test-url");
   var startUrl = $("#monitor-info").data("start-url");
   var stopUrl = $("#monitor-info").data("stop-url");
-  var deleteUrl = $("#monitor-info").data("delete-url");
+  var restfulUrl = $("#monitor-info").data("restful-url");
   var dashboardUrl = $("#monitor-info").data("dashboardUrl");
+
+  _.templateSettings = {
+    interpolate: /\{\{(.+?)\}\}/g
+  };
 
   var Util = {
     init: function () {
       this.message = $("#message");
-	      if(this.message.length > 0) {
-	      _.templateSettings = {
-	        interpolate: /\{\{(.+?)\}\}/g
-	      };
-	      this.messageTemplate = _.template( $('#message-template').html() );
-      }
+	    this.messageTemplate = _.template( $('#message-template').html() );
     },
     success: function (data) {
       Util.message.append(
@@ -30,7 +29,6 @@ $(function() {
       vent.trigger("data:refresh", "change-all");
     },
     error: function ( xhr ) {
-    	console.log(xhr.responseText)
       var response = $.parseJSON(xhr.responseText);
       Util.message.append(
         Util.messageTemplate({message: "Error", alert: "danger", response: JSON.stringify(response)})
@@ -40,24 +38,28 @@ $(function() {
 
   var monitor = {
     init: function () {
-      //this.createEditor();
+    	this.$el = $("#monitor-details");
+    	this.$form = $("#monitor-form");
+    	this.template = _.template( $('#monitor-details-template').html() );
       this.find();
     },
     createEditor: function () {
 
     },
     render: function (data) {
-      var cleanData = _.omit(data, ['_id','_rev', 'type']);
-      //monitor.editor.set(cleanData);
-      console.log(cleanData);
+      monitor.$el.html(
+        monitor.template(data)
+      );
     },
     update: function () {
-      var attributesToUpdate = _.omit(this.editor.get(), ['_id','_rev','created_at_', 'status_', 'type', 'current_state_']);
-      var attributesJson = JSON.stringify( attributesToUpdate );
-      ragios.update( getMonitorId(), attributesJson, Util.success, Util.error );
+      var data = {};
+      monitor.$form.serializeArray().map(function(i){data[i.name] = i.value;});
+      console.log(data)
+      var attributesJson = JSON.stringify( data );
+      ragios.update( restfulUrl, attributesJson, Util.success, Util.error );
     },
     find: function () {
-      ragios.find( monitorUrl, this.render, Util.error );
+      ragios.find( findMonitorUrl, this.render, Util.error );
     },
     start: function () {
       if( ragiosHelper.confirm("Are you sure you want to start this monitor?") ) {
@@ -79,7 +81,7 @@ $(function() {
         var deleteSuccess = function () {
           ragiosHelper.redirect_to(dashboardUrl);
         };
-        ragios.delete( deleteUrl, deleteSuccess, Util.error );
+        ragios.delete( restfulUrl, deleteSuccess, Util.error );
       }
     }
   };

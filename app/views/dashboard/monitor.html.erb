@@ -1,10 +1,10 @@
 <span class="hide" id="monitor-info" data-monitor-id="<%= @monitor.ragiosid %>"
   data-events-url="<%= events_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"
-  data-monitor-url="<%= find_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"
+  data-find-monitor-url="<%= find_ragios_monitors_path(id: @monitor.id, ragios_id: @monitor.ragiosid) %>"
   data-test-url="<%= test_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"
   data-start-url="<%= start_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"
   data-stop-url="<%= stop_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"
-  data-delete-url="<%= ragios_monitor_path(@monitor.id) %>"
+  data-restful-url="<%= ragios_monitor_path(@monitor.id) %>"
   data-dashboard-url="<%= dashboard_index_path %>">
 </span>
 <div class="row">
@@ -14,7 +14,6 @@
     </ul>
   </div>
 </div>
-
 <div class="row">
   <div class="columns">
     <span id="message"></span>
@@ -39,49 +38,55 @@
         <div class="content" id="panel1">
           <div class="row">
             <div class="column">
-              <form>
-                <div class="row">
-                  <div class="medium-6 columns">
-                    <label>Title
-                      <input type="text" value="<%= @monitor.title %>" />
-                    </label>
+              <form id="monitor-form">
+                <span id="monitor-details"></span>
+                <script id="monitor-details-template" type="text/template">
+                  <div class="row">
+                    <div class="medium-6 columns">
+                      <label>Title
+                        <input type="text" name="title" value="{{ monitor }}" />
+                      </label>
+                    </div>
+                    <div class="medium-6 columns">
+                      <label>URL
+                        <input type="text" name="url" value="{{ url }}" />
+                      </label>
+                    </div>
                   </div>
-                  <div class="medium-6 columns">
-                    <label>URL
-                      <input type="text" value="<%= @monitor.url %>" />
-                    </label>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="columns medium-6">
-                    <label>This monitor runs every:
+                  <div class="row">
+                    <div class="columns medium-6">
+                      <label>This monitor runs every:
+                        <div class="row">
+                          <div class="columns small-6">
+                            <label>Hours
+                              <input type="number" name="hours" placeholder="0" value="{{ hours }}"  min="0" />
+                            </label>
+                          </div>
+                          <div class="columns small-6">
+                            <label>Minutes
+                              <input type="number" name="minutes" value="{{ minutes }}"  min="0" />
+                            </label>
+                          </div>
+                        </div>
+                      </label>
+                    </div>
+                    <div class="columns medium-6">
                       <div class="row">
-                        <div class="columns small-6">
-                          <label>Hours
-                            <input type="number" name="hours" placeholder="0"  min="0" />
-                          </label>
-                        </div>
-                        <div class="columns small-6">
-                          <label>Minutes
-                            <input type="number" name="minutes" value="5"  min="0" />
-                          </label>
+                        <div class="columns">
+                          State: {{ current_state_.state }}
                         </div>
                       </div>
-                    </label>
-                  </div>
-                  <div class="columns medium-6">
-                    <div class="row">
-                      <div class="columns">
-                        State: Successful
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="columns">
-                        Status: Active
+                      <div class="row">
+                        <div class="columns">
+                          Status: {{ status_ }}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </script>
+
+
+
 
                 <div class="row">
                   <div class="columns">

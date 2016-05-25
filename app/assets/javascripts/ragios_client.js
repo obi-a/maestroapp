@@ -30,14 +30,14 @@ var ragios = {
       });
     },
 
-    create : function(data, success, error) {
-        this.request({
-            type: "POST",
-            url: "/monitors/",
-            success: success,
-             error: error,
-             data: data
-        });
+    create : function(url, data, success, error) {
+      this.request({
+        type: "POST",
+        url: "/monitors/",
+        success: success,
+         error: error,
+         data: data
+      });
     },
 
     delete : function(url, success, error) {
@@ -50,23 +50,23 @@ var ragios = {
     },
 
     delete_event : function(event_id, success, error) {
-        this.request({
-            type: "DELETE",
-            url: "/events/" + event_id,
-            success: success,
-            error: error
-        });
+      this.request({
+        type: "DELETE",
+        url: "/events/" + event_id,
+        success: success,
+        error: error
+      });
     },
 
-    update : function (monitor_id, data, success, error) {
-        this.request({
-            type: "PUT",
-            url: "/monitors/" + monitor_id,
-            success: success,
-            error: error,
-            data: data,
-            contentType: "application/json"
-        });
+    update : function (url, data, success, error) {
+      this.request({
+        type: "PUT",
+        url: url,
+        success: success,
+        error: error,
+        data: data,
+        contentType: "application/json"
+      });
     },
 
     find : function(url, success, error) {
