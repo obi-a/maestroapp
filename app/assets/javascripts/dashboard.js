@@ -12,6 +12,10 @@ $(function() {
   var stopUrl = $("#monitor-info").data("stop-url");
   var restfulUrl = $("#monitor-info").data("restful-url");
   var dashboardUrl = $("#monitor-info").data("dashboardUrl");
+	var $allEventsTab = $("#all-events-tab");
+	var $allEvents = $("#all-events");
+	var $monitorsTab = $("#monitors-tab");
+	var $monitor = $("#monitor");
 
   _.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g
@@ -26,13 +30,15 @@ $(function() {
       Util.message.append(
         Util.messageTemplate({message: "Success", alert: "success", response: JSON.stringify(data)})
       );
-      vent.trigger("data:refresh", "change-all");
+      vent.trigger("data:refresh", "update-monitor");
+      $(document).foundation('alert', 'reflow');
     },
     error: function ( xhr ) {
       var response = $.parseJSON(xhr.responseText);
       Util.message.append(
         Util.messageTemplate({message: "Error", alert: "danger", response: JSON.stringify(response)})
       );
+      $(document).foundation('alert', 'reflow');
     }
   }
 
@@ -163,6 +169,44 @@ $(function() {
     }
   });
 
+  vent.on("data:refresh", function(item){
+    if(item === "update-monitor") {
+    	monitor.find();
+    }
+  });
+
+  $("#all-events-link").on("click", function() {
+    allEvents.dataChanged();
+    Backbone.history.navigate('allevents');
+  });
+
+  $("#monitor-link").on("click", function() {
+    monitor.find();
+    Backbone.history.navigate('monitor');
+  });
+
+  var MonitorRouter = Backbone.Router.extend({
+    routes: {
+      "monitor" : "monitor",
+      "allevents" : "allEvents"
+    },
+    monitor: function() {
+    	$allEventsTab.removeClass('active');
+    	$allEvents.removeClass('active');
+
+    	$monitorsTab.addClass('active');
+    	$monitor.addClass('active');
+    },
+    allEvents: function() {
+    	$monitorsTab.removeClass('active');
+    	$monitor.removeClass('active');
+
+    	$allEventsTab.addClass('active');
+    	$allEvents.addClass('active');
+    }
+  });
+
+
   $( "#start-button" ).on("click", function() { monitor.start(); });
   $( "#stop-button" ).on("click", function() { monitor.stop(); });
   $( "#test-button" ).on("click", function() { monitor.test(); });
@@ -172,4 +216,7 @@ $(function() {
   Util.init();
   monitor.init();
   allEvents.buildTable();
+
+  var monitorRouter = new MonitorRouter();
+  Backbone.history.start();
 });

@@ -26,16 +26,15 @@
     </script>
   </div>
 </div>
-
 <div class="row">
   <div class="column">
     <div class="panel">
-      <ul class="tabs" data-tab>
-        <li class="tab-title active"><a href="#panel2"><i class="fi-graph-trend icon"></i>Events</a></li>
-        <li class="tab-title"><a href="#panel1"><i class="fi-widget icon"></i>Monitor</a></li>
+      <ul class="tabs" id="monitor-tab" data-tab>
+        <li id="all-events-tab" class="tab-title active"><a id="all-events-link" href="#all-events"><i class="fi-graph-trend icon"></i>Events</a></li>
+        <li id="monitors-tab" class="tab-title"><a id="monitor-link" href="#monitor"><i class="fi-widget icon"></i>Monitor</a></li>
       </ul>
       <div class="tabs-content">
-        <div class="content" id="panel1">
+        <div class="content" id="monitor">
           <div class="row">
             <div class="column">
               <form id="monitor-form">
@@ -84,10 +83,6 @@
                     </div>
                   </div>
                 </script>
-
-
-
-
                 <div class="row">
                   <div class="columns">
                     <a id="update-monitor-button" href="#" class="button tiny"><i class="fi-save icon"></i>Update Monitor</a>
@@ -102,7 +97,7 @@
             </div>
           </div>
         </div>
-        <div class="content active" id="panel2">
+        <div class="content active" id="all-events">
           <div class="row">
             <div class="columns">
               <table  id="all-events-datatable" >
