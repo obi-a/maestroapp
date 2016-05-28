@@ -12,10 +12,12 @@ $(function() {
   var stopUrl = $("#monitor-info").data("stop-url");
   var restfulUrl = $("#monitor-info").data("restful-url");
   var dashboardUrl = $("#monitor-info").data("dashboardUrl");
-	var $allEventsTab = $("#all-events-tab");
-	var $allEvents = $("#all-events");
-	var $monitorsTab = $("#monitors-tab");
-	var $monitor = $("#monitor");
+  var $allEventsTab = $("#all-events-tab");
+  var $allEvents = $("#all-events");
+  var $monitorsTab = $("#monitors-tab");
+  var $monitor = $("#monitor");
+  var $message =  $("#message");
+
 
   _.templateSettings = {
     interpolate: /\{\{(.+?)\}\}/g
@@ -23,12 +25,12 @@ $(function() {
 
   var Util = {
     init: function () {
-      this.message = $("#message");
-	    this.messageTemplate = _.template( $('#message-template').html() );
+      this.message = $message;
+      this.messageTemplate = _.template( $('#message-template').html() );
     },
     success: function (data) {
       Util.message.append(
-        Util.messageTemplate({message: "Success", alert: "success", response: JSON.stringify(data)})
+        Util.messageTemplate({message: "Success", alert: "info", response: JSON.stringify(data)})
       );
       vent.trigger("data:refresh", "update-monitor");
       $(document).foundation('alert', 'reflow');
@@ -36,7 +38,7 @@ $(function() {
     error: function ( xhr ) {
       var response = $.parseJSON(xhr.responseText);
       Util.message.append(
-        Util.messageTemplate({message: "Error", alert: "danger", response: JSON.stringify(response)})
+        Util.messageTemplate({message: "Error", alert: "alert", response: JSON.stringify(response)})
       );
       $(document).foundation('alert', 'reflow');
     }
@@ -44,9 +46,9 @@ $(function() {
 
   var monitor = {
     init: function () {
-    	this.$el = $("#monitor-details");
-    	this.$form = $("#monitor-form");
-    	this.template = _.template( $('#monitor-details-template').html() );
+      this.$el = $("#monitor-details");
+      this.$form = $("#monitor-form");
+      this.template = _.template( $('#monitor-details-template').html() );
       this.find();
     },
     createEditor: function () {
@@ -60,7 +62,6 @@ $(function() {
     update: function () {
       var data = {};
       monitor.$form.serializeArray().map(function(i){data[i.name] = i.value;});
-      console.log(data)
       var attributesJson = JSON.stringify( data );
       ragios.update( restfulUrl, attributesJson, Util.success, Util.error );
     },
@@ -91,7 +92,6 @@ $(function() {
       }
     }
   };
-
 
   var EventTable = {
     create: function(tableSelector) {
@@ -132,7 +132,7 @@ $(function() {
     createTable: function(data) {
       allEvents.table =
       allEvents.tableSelector.dataTable({
-      	"bFilter": false,
+        "bFilter": false,
         "bStateSave": true,
         "order": [ 0, 'desc' ],
         "data": allEvents.cleanData(data),
@@ -171,7 +171,7 @@ $(function() {
 
   vent.on("data:refresh", function(item){
     if(item === "update-monitor") {
-    	monitor.find();
+      monitor.find();
     }
   });
 
@@ -191,18 +191,18 @@ $(function() {
       "allevents" : "allEvents"
     },
     monitor: function() {
-    	$allEventsTab.removeClass('active');
-    	$allEvents.removeClass('active');
+      $allEventsTab.removeClass('active');
+      $allEvents.removeClass('active');
 
-    	$monitorsTab.addClass('active');
-    	$monitor.addClass('active');
+      $monitorsTab.addClass('active');
+      $monitor.addClass('active');
     },
     allEvents: function() {
-    	$monitorsTab.removeClass('active');
-    	$monitor.removeClass('active');
+      $monitorsTab.removeClass('active');
+      $monitor.removeClass('active');
 
-    	$allEventsTab.addClass('active');
-    	$allEvents.addClass('active');
+      $allEventsTab.addClass('active');
+      $allEvents.addClass('active');
     }
   });
 
@@ -213,10 +213,11 @@ $(function() {
   $( "#delete-button" ).on("click", function() { monitor.delete(); });
   $( "#update-monitor-button" ).on("click", function() { monitor.update(); });
 
-  Util.init();
-  monitor.init();
+  if($message.length > 0) Util.init()
+  if($monitor.length > 0) monitor.init()
   allEvents.buildTable();
 
   var monitorRouter = new MonitorRouter();
   Backbone.history.start();
+
 });

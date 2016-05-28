@@ -39,19 +39,19 @@ var ragiosHelper = {
 
     formatState: function (state) {
         if(state === "passed") {
-            return '<span class="label label-success">passed</span>'
+            return '<span class="label success">passed</span>'
         } else if(state === "resolved") {
-            return '<span class="label label-success">resolved</span>'
+            return '<span class="label success">resolved</span>'
         } else if(state === "failed") {
-            return '<span class="label label-danger">failed</span>'
+            return '<span class="label alert">failed</span>'
         } else if (state === "error")  {
-            return '<span class="label label-default">error</span>'
+            return '<span class="label warning">error</span>'
         } else if (state === "stopped")  {
-            return '<span class="label label-warning">stopped</span>'
+            return '<span class="label warning">stopped</span>'
         } else if (state === "started")  {
-            return '<span class="label label-primary">started</span>'
+            return '<span class="label info">started</span>'
         } else {
-            return '<span class="label label-primary">' + state + '</span>'
+            return '<span class="label info">' + state + '</span>'
         }
     },
 
