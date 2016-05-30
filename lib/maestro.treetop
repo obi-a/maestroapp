@@ -1,0 +1,253 @@
+grammar Maestro
+
+  rule body
+    ( waiting  / validations_and_actions / element_validation / single_html_element / space)* {
+      def content
+        elements.map { |e| e.content }.compact
+      end
+
+      def description
+        elements.map { |e| e.description }.compact
+      end
+    }
+  end
+
+  rule waiting
+    space? "wait_for" page_content  {
+      def content
+        [{:wait_until_exists? => page_content.content }]
+      end
+      def description
+        "waited, #{page_content.description}"
+      end
+    }
+  end
+
+  rule page_content
+    space (validations_and_actions / element_validation /  html_element) space? {
+      def content
+        elements[1].content
+      end
+      def description
+        elements[1].description
+      end
+    }
+  end
+
+  rule validations_and_actions
+    (element_validation / html_element) check_func+ {
+      def content
+        this_content = elements.first.content
+        container = [(this_content.is_a?(Array) ? this_content.first  : this_content )]
+        elements.last.elements.each do |e|
+          container << e.content
+        end
+        container
+      end
+
+      def description
+        string = elements.first.description
+        elements.last.elements.each do |e|
+          element_description = e.description
+          string << ", " if element_description.include?("with text") || element_description.include?("includes text")
+          string << element_description
+        end
+        string
+      end
+    }
+  end
+
+  rule element_validation
+    html_element ".where" space? hash space? {
+      def content
+        [{html_element.content => hash.content }]
+      end
+      def description
+        "#{html_element.description}, with #{hash.description}"
+      end
+    }
+  end
+
+  rule check_func
+    "." (reserved_with_string / click ) {
+      def content
+        elements[1].content
+      end
+      def description
+        elements[1].description
+      end
+    }
+  end
+
+  rule click
+    "click" {
+      def content
+        [:click]
+      end
+      def description
+        ""
+      end
+    }
+  end
+
+  rule reserved_with_string
+    reserved_functions string_params  {
+      def content
+        [{reserved_functions.content => string_params.content }]
+      end
+      def description
+        if reserved_functions.description.include?("set") || reserved_functions.description.include?("select")
+          ""
+        else
+          "#{reserved_functions.description} #{string_params.description}"
+        end
+      end
+    }
+  end
+
+  rule reserved_functions
+    ("with_text" / "includes_text" / "where" /"set" / "select" ) {
+      def content
+        case text_value
+        when "with_text"
+          :text
+        when "includes_text"
+          :includes_text
+        when "set"
+          :set
+        when "select"
+          :select
+        end
+      end
+      def description
+        case text_value
+        when "with_text"
+          "with text"
+        when "includes_text"
+          "includes text"
+        when "set"
+          "set to"
+        when "select"
+          "select"
+        end
+      end
+    }
+  end
+
+  rule string_params
+    space? '(' space? string space? ')' {
+      def content
+        string.content
+      end
+      def description
+        string.description
+      end
+    }
+  end
+
+  rule hash
+    '(' hash_contents+ ')' {
+      def content
+        hash = {}
+        elements[1].elements.each do |e|
+          hash.merge!(e.content)
+        end
+        hash
+      end
+      def description
+        string = ""
+        count = 0
+        elements[1].elements.each do |e|
+          string << ", " if count > 0
+          string << e.description
+          count += 1
+        end
+        string
+      end
+    }
+  end
+
+  rule hash_contents
+    key_value_pair space? ','? space? {
+      def content
+        key_value_pair.content
+      end
+      def description
+        key_value_pair.description
+      end
+    }
+  end
+
+  rule key_value_pair
+    space? identifier space? ":" space? string space? {
+      def content
+        {identifier.content => string.content }
+      end
+      def description
+        "#{identifier.description}=#{string.description}"
+      end
+    }
+  end
+
+  rule single_html_element
+    word number {
+      def content
+        [text_value.to_sym]
+      end
+      def description
+        "#{text_value}"
+      end
+    }
+  end
+
+  rule html_element
+    word number {
+      def content
+        text_value.to_sym
+      end
+      def description
+        "#{text_value}"
+      end
+    }
+  end
+
+  rule identifier
+    word number {
+      def content
+        text_value.to_sym
+      end
+      def description
+        text_value
+      end
+    }
+  end
+
+  rule string
+    '"' (!'"' . / '\"')* '"' {
+      def content
+        eval text_value
+      end
+      def description
+        text_value
+      end
+    }
+  end
+
+  rule word
+    [A-Za-z_]+
+  end
+
+  rule number
+    ([0-9]+)?
+  end
+
+  rule space
+    [\s]+ {
+      def content
+      end
+
+      def description
+      end
+    }
+  end
+end
