@@ -11,11 +11,20 @@ $(function () {
     matchBrackets: true
   });
 
+  var maestroUrl = $("#maestro-info").data("maestro-url");
+
   console.log(myCodeMirror);
   console.log(editor);
 
+  myCodeMirror.on("changes", function(doc, _){
+    var sourceCode = doc.getValue();
+    ragios.validateMaestro(maestroUrl, sourceCode, ProcessMonitor.maestroResponse, ProcessMonitor.maestroError);
+  });
+
   var httpCheck = false;
   var $form = $("#new_ragios_monitor");
+  var syntaxErrorTemplate = _.template( $('#syntax-error-template').html() );
+  var $error = $("#error");
 
   var ProcessMonitor = {
     init: function() {
@@ -38,6 +47,18 @@ $(function () {
       } else {
         console.log("submit real browser monitor")
       }
+    },
+    maestroResponse: function(response) {
+      if (response.error) {
+        $error.html(
+          syntaxErrorTemplate(response)
+        )
+      } else {
+        $error.html("")
+      }
+    },
+    maestroError: function() {
+
     }
   }
 

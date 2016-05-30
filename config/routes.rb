@@ -17,6 +17,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :maestro, only: :none do
+    collection do
+      post :validate
+    end
+  end
+
   #get 'dashboard/index'
 
   #get 'dashboard/monitor'
