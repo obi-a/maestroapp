@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   resources :maestro, only: :none do
     collection do
       post :validate
+      post :test
     end
   end
 

@@ -19,7 +19,7 @@
     </div>
     <div class="columns small-6">
       <label>URL <small>required</small>
-        <input type="text" name="url" required>
+        <input id="url" type="text" name="url" required>
       </label>
       <small class="error">A URL is required</small>
     </div>
@@ -67,8 +67,8 @@
 
   <div class="row" style="margin-top:15px;">
     <div class="columns">
-      <a id="test-monitor" href="#" class="button tiny"><i class="fi-wrench icon"></i>Test</a>
-      <a id="submit-monitor" href="#" class="button tiny"><i class="fi-arrow-right icon"></i>Submit</a>
+      <a id="test-monitor" data-maestro-test-url="<%= test_maestro_index_path %>" href="#" class="button tiny monitor-actions"><i class="fi-wrench icon"></i>Test</a>
+      <a id="submit-monitor" href="#" class="button tiny monitor-actions"><i class="fi-arrow-right icon"></i>Submit</a>
     </div>
   </div>
 <% end %>

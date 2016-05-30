@@ -13,6 +13,16 @@ var ragios = {
     })
   },
 
+  testMaestro : function(endpoint, url, success, error) {
+    this.request({
+      type: "POST",
+      url: endpoint,
+      success: success,
+      error: error,
+      data: {"url": url}
+    })
+  },
+
   start : function(url, success, error) {
     this.request({
       type: "PUT",
