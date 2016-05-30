@@ -35,10 +35,12 @@ $(function () {
     showHttpCheck: function() {
       httpCheck = true;
       $("#validations").hide("slow");
+      $("#test-monitor").hide();
     },
     showRealBrowserMonitor: function() {
       httpCheck = false;
       $("#validations").show("slow");
+      $("#test-monitor").show();
     },
     submitMonitor: function(e) {
       e.preventDefault();
