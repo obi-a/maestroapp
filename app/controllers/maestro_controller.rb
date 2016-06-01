@@ -4,6 +4,8 @@ class MaestroController < ApplicationController
   before_filter :authenticate_user!
 
   def test
+    #sample response:
+    #{:results=>[["title, includes text \"Obi\"", "exists_as_expected"]]}
     response = {ok: true}
     render json: response.to_json
   end
