@@ -106,7 +106,7 @@ grammar Maestro
   end
 
   rule reserved_functions
-    ("with_text" / "includes_text" / "where" /"set" / "select" ) {
+    ("with_text" / "includes_text"/ "where" / "set" / "select") {
       def content
         case text_value
         when "with_text"

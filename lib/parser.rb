@@ -13,7 +13,7 @@ class Parser
       raise(ParserSyntaxError.new(error: "syntax error"), "syntax error") if $1.nil?
       message =
       "#{$1.gsub("\n", '$NEWLINE')}:" << "\n" <<
-      data.lines.to_a[parser.failure_line - 1] << "\n" <<
+      data.lines.to_a[parser.failure_line - 1].to_s << "\n" <<
       "#{'~' * (parser.failure_column - 1)}^"
       raise(ParserSyntaxError.new(error: message), message)
     end
