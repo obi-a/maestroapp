@@ -1,6 +1,11 @@
 $(function() {
   'use strict';
 
+  _.templateSettings = {
+    interpolate: /\{\{\=(.+?)\}\}/g,
+    evaluate: /\{\{(.+?)\}\}/g
+  };
+
   var getMonitorId = _.memoize(function () {
     return $("#monitor-info").data("monitor-id");
   });
@@ -17,11 +22,6 @@ $(function() {
   var $monitorsTab = $("#monitors-tab");
   var $monitor = $("#monitor");
   var $message =  $("#message");
-
-
-  _.templateSettings = {
-    interpolate: /\{\{(.+?)\}\}/g
-  };
 
   var Util = {
     init: function () {
@@ -213,8 +213,8 @@ $(function() {
   $( "#delete-button" ).on("click", function() { monitor.delete(); });
   $( "#update-monitor-button" ).on("click", function() { monitor.update(); });
 
-  if($message.length > 0) Util.init()
-  if($monitor.length > 0) monitor.init()
+  Util.init()
+  monitor.init()
   allEvents.buildTable();
 
   var monitorRouter = new MonitorRouter();

@@ -50,16 +50,20 @@
   </div>
 
   <div id="validations">
+    <textarea id="source-code" name="source_code" class="hide"></textarea>
     <div class="row">
       <div class="columns">
         <label>Validations & Actions
           <div id="editor" name="code"></div>
         </label>
-        <span id="error" >
-
-        </span>
+        <span id="console"></span>
         <script id="syntax-error-template" type="text/template">
-          <div id="syntax-error" class="search-results">{{ error }}</div>
+          <div id="syntax-error" class="search-results">{{= error }}</div>
+        </script>
+        <script id="results-template" type="text/template">
+          {{ _.each( results, function(i) { }}
+            <div id="results" class="search-results">{{ if (i[0] !== "error") { }} ({{= _.indexOf(results,i) + 1 }}.) {{ } }}{{= i }}</div>
+          {{ }); }}
         </script>
       </div>
     </div>

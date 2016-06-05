@@ -13,13 +13,13 @@ var ragios = {
     })
   },
 
-  testMaestro : function(endpoint, url, success, error) {
+  testMaestro : function(endpoint, url, sourceCode, success, error) {
     this.request({
       type: "POST",
       url: endpoint,
       success: success,
       error: error,
-      data: {"url": url}
+      data: {"url": url, "source_code": sourceCode}
     })
   },
 

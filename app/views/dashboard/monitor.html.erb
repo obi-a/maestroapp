@@ -1,3 +1,5 @@
+<%= javascript_include_tag "monitor" %>
+
 <span class="hide" id="monitor-info" data-monitor-id="<%= @monitor.ragiosid %>"
   data-events-url="<%= events_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"
   data-find-monitor-url="<%= find_ragios_monitors_path(id: @monitor.id, ragios_id: @monitor.ragiosid) %>"
@@ -18,9 +20,9 @@
   <div class="columns">
     <span id="message"></span>
     <script id="message-template" type="text/template">
-    <div data-alert class="alert-box {{ alert }}">
-      <div>{{ message }}!</div>
-      <div>{{ response }}</div>
+    <div data-alert class="alert-box {{= alert }}">
+      <div>{{= message }}!</div>
+      <div>{{= response }}</div>
       <a href="#" class="close">&times;</a>
     </div>
     </script>
@@ -43,12 +45,12 @@
                   <div class="row">
                     <div class="medium-6 columns">
                       <label>Title
-                        <input type="text" name="title" value="{{ monitor }}" />
+                        <input type="text" name="title" value="{{= monitor }}" />
                       </label>
                     </div>
                     <div class="medium-6 columns">
                       <label>URL
-                        <input type="text" name="url" value="{{ url }}" />
+                        <input type="text" name="url" value="{{= url }}" />
                       </label>
                     </div>
                   </div>
@@ -58,12 +60,12 @@
                         <div class="row">
                           <div class="columns small-6">
                             <label>Hours
-                              <input type="number" name="hours" placeholder="0" value="{{ hours }}"  min="0" />
+                              <input type="number" name="hours" placeholder="0" value="{{= hours }}"  min="0" />
                             </label>
                           </div>
                           <div class="columns small-6">
                             <label>Minutes
-                              <input type="number" name="minutes" value="{{ minutes }}"  min="0" />
+                              <input type="number" name="minutes" value="{{= minutes }}"  min="0" />
                             </label>
                           </div>
                         </div>
@@ -72,17 +74,40 @@
                     <div class="columns medium-6">
                       <div class="row">
                         <div class="columns">
-                          State: {{ ragiosHelper.formatState(current_state_.state) }}
+                          State: {{= ragiosHelper.formatState(current_state_.state) }}
                         </div>
                       </div>
                       <div class="row">
                         <div class="columns">
-                          Status: {{ ragiosHelper.formatState(status_) }}
+                          Status: {{= ragiosHelper.formatState(status_) }}
                         </div>
                       </div>
                     </div>
                   </div>
                 </script>
+
+
+                <div id="validations">
+                  <textarea id="source-code" name="source_code" class="hide"></textarea>
+                  <div class="row">
+                    <div class="columns">
+                      <label>Validations & Actions
+                        <div id="editor" name="code"></div>
+                      </label>
+                      <span id="console"></span>
+                      <script id="syntax-error-template" type="text/template">
+                        <div id="syntax-error" class="search-results">{{= error }}</div>
+                      </script>
+                      <script id="results-template" type="text/template">
+                        {{ _.each( results, function(i) { }}
+                          <div id="results" class="search-results">{{ if (i[0] !== "error") { }} ({{= _.indexOf(results,i) + 1 }}.) {{ } }}{{= i }}</div>
+                        {{ }); }}
+                      </script>
+                    </div>
+                  </div>
+                </div>
+
+
                 <div class="row">
                   <div class="columns">
                     <a id="update-monitor-button" href="#" class="button tiny"><i class="fi-save icon"></i>Update Monitor</a>

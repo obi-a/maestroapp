@@ -1,9 +1,16 @@
 $(function () {
+
+  'use strict';
+
+  _.templateSettings = {
+    interpolate: /\{\{\=(.+?)\}\}/g,
+    evaluate: /\{\{(.+?)\}\}/g
+  };
+
   $(document).foundation();
 
   var editor = document.getElementById("editor");
   var myCodeMirror = CodeMirror(editor, {
-    value: "title.with_text(\"hello world\")\n",
     mode:  "ruby",
     theme: "hopscotch",
     lineNumbers: true,
@@ -13,9 +20,6 @@ $(function () {
 
   var maestroValidateUrl = $("#maestro-info").data("maestro-url");
 
-  console.log(myCodeMirror);
-  console.log(editor);
-
   myCodeMirror.on("changes", function(doc, _){
     var sourceCode = doc.getValue();
     ragios.validateMaestro(maestroValidateUrl, sourceCode, ProcessMonitor.maestroSyntaxCheckResponse, ProcessMonitor.maestroError);
@@ -24,9 +28,11 @@ $(function () {
   var httpCheck = false;
   var $form = $("#new_ragios_monitor");
   var syntaxErrorTemplate = _.template( $('#syntax-error-template').html() );
-  var $error = $("#error");
+  var resultsTemplate = _.template( $('#results-template').html() );
+  var $console = $("#console");
   var $url = $("#url");
   var maestroTestUrl = $("#test-monitor").data("maestro-test-url");
+  var $sourceCode = $("#source-code");
 
   var ProcessMonitor = {
     init: function() {
@@ -47,35 +53,48 @@ $(function () {
     },
     testRealBrowserMonitor: function() {
       var url = $url.val();
-      ragios.testMaestro(maestroTestUrl, url, ProcessMonitor.testMonitorResponse, ProcessMonitor.maestroError)
+      var sourceCode = myCodeMirror.getValue();
+      if (url.length > 0) {
+        ragios.testMaestro(maestroTestUrl, url, sourceCode, ProcessMonitor.testMonitorResponse, ProcessMonitor.maestroError)
+      } else {
+        $console.html("<div class=\"search-results\">Fill in URL field before running a test.</div>");
+      }
     },
     submitMonitor: function(e) {
       e.preventDefault();
       if(httpCheck) {
         $form.submit();
       } else {
-        console.log("submit real browser monitor")
+        var sourceCode = myCodeMirror.getValue();
+
+        $sourceCode.val(sourceCode);
+        $form.submit();
       }
     },
-    testMonitorResponse: function(response) {
-      console.log(response)
+    testMonitorResponse: function(result) {
+      $console.html(
+        resultsTemplate(result)
+      )
     },
     maestroSyntaxCheckResponse: function(response) {
       if (response.error) {
-        $error.html(
+        $console.html(
           syntaxErrorTemplate(response)
         )
         $(".monitor-actions").addClass("disabled");
       } else {
-        $error.html("");
+        $console.html("");
         $(".monitor-actions").removeClass("disabled");
       }
     },
-    maestroError: function() {
-
+    maestroError: function(xhr) {
+      var response = $.parseJSON(xhr.responseText);
+      ProcessMonitor.message.append(
+        ProcessMonitor.messageTemplate({message: "Error", alert: "alert", response: JSON.stringify(response)})
+      );
+      $(document).foundation('alert', 'reflow');
     }
   }
 
   ProcessMonitor.init();
-
 });

@@ -1,4 +1,4 @@
-class UrlMonitorCreationJob < ActiveJob::Base
+class MonitorCreationJob < ActiveJob::Base
   # Set the Queue as Default
   queue_as :default
 
@@ -6,15 +6,18 @@ class UrlMonitorCreationJob < ActiveJob::Base
     ragios = Ragios::Client.new
     ActiveRecord::Base.connection_pool.with_connection do
       m = RagiosMonitor.find(monitor_id)
-      response = ragios.create(
+      options = {
         monitor: m.title,
         url: m.url,
         via: "gmail_notifier",
         contact: m.user.email,
         tag: m.user.id,
-        plugin: "url_monitor",
+        plugin: m.monitor_type,
         every: "#{m.hours}h#{m.minutes}m"
-      )
+      }
+      options[:browser] = "firefox headless"
+      options[:exists?] = m.code
+      response = ragios.create(options)
 
       if response["error"]
         m.update_attributes(

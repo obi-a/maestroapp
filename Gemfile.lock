@@ -89,7 +89,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
-    domain_name (0.5.20160309)
+    domain_name (0.5.20160310)
       unf (>= 0.0.5, < 1.0.0)
     erubis (2.7.0)
     execjs (2.6.0)
@@ -134,7 +134,7 @@ GEM
     minitest (5.8.2)
     momentjs-rails (2.10.6)
       railties (>= 3.1)
-    multi_json (1.11.2)
+    multi_json (1.12.1)
     neat (1.7.2)
       bourbon (>= 4.0)
       sass (>= 3.3)
@@ -154,7 +154,7 @@ GEM
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
-    ragios-client (0.1.0)
+    ragios-client (0.2.0)
       multi_json
       rest-client
     rails (4.2.4)
@@ -272,7 +272,7 @@ DEPENDENCIES
   jquery-turbolinks
   pg
   pry-rails
-  ragios-client
+  ragios-client (~> 0.2.0)
   rails (= 4.2.4)
   rolify
   rspec-rails (~> 3.0)

@@ -2,11 +2,15 @@ require 'parser'
 
 class MaestroController < ApplicationController
   before_filter :authenticate_user!
+  before_action :set_client, only: [:test]
 
   def test
-    #sample response:
-    #{:results=>[["title, includes text \"Obi\"", "exists_as_expected"]]}
-    response = {ok: true}
+    response = begin
+      @client.maestro_test(params[:url], params[:source_code])
+    rescue Ragios::ClientException => e
+      err = JSON.parse e.message
+      {results: [["error", err["error"] ]]}
+    end
     render json: response.to_json
   end
 
@@ -19,4 +23,10 @@ class MaestroController < ApplicationController
     end
     render json: response.to_json
   end
+
+  private
+
+    def set_client
+      @client ||= Ragios::Client.new
+    end
 end

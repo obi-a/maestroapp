@@ -24,6 +24,5 @@
 //= require moment-with-locales.min
 //= require ragios_helper
 //= require ragios_client
-//= require_tree .
 
 $(function(){ $(document).foundation(); });

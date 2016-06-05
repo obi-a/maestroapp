@@ -31,19 +31,24 @@ class RagiosMonitorsController < ApplicationController
 
   # POST /ragios_monitors
   def create
+    @ragios_monitor = RagiosMonitor.new(
+      url: params[:url],
+      title: params[:title],
+      hours: params[:hours].to_i,
+      minutes: params[:minutes].to_i
+    )
+    @ragios_monitor.monitor_type =
     if params[:monitor_type].to_sym == :http_check
-      @ragios_monitor = RagiosMonitor.new(
-        url: params[:url],
-        title: params[:title],
-        hours: params[:hours].to_i,
-        minutes: params[:minutes].to_i,
-        monitor_type: "url_monitor"
-      )
-      @ragios_monitor.user = current_user
+      "url_monitor"
+    elsif params[:monitor_type].to_sym == :real_browser_monitor
+      "uptime_monitor"
     end
+    @ragios_monitor.user = current_user
+    @ragios_monitor.code = params[:source_code] if params[:monitor_type].to_sym == :real_browser_monitor
+
 
     if @ragios_monitor.save
-      UrlMonitorCreationJob.perform_later(@ragios_monitor.id)
+      MonitorCreationJob.perform_later(@ragios_monitor.id)
       redirect_to dashboard_index_path, notice: 'Ragios monitor was successfully created.'
     else
       render :new

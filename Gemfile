@@ -15,7 +15,7 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jquery-turbolinks'
 gem 'sdoc', '~> 0.4.0', group: :doc
-gem 'ragios-client'
+gem 'ragios-client', '~> 0.2.0'
 gem 'breadcrumbs_on_rails'
 gem 'foundation-icons-sass-rails'
 gem 'jquery-datatables-rails', '~> 3.3.0'
