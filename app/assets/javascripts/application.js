@@ -24,5 +24,6 @@
 //= require moment-with-locales.min
 //= require ragios_helper
 //= require ragios_client
+//= require maestro
 
 $(function(){ $(document).foundation(); });

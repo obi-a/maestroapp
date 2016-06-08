@@ -6,6 +6,16 @@ $(function() {
     evaluate: /\{\{(.+?)\}\}/g
   };
 
+  var editor = document.getElementById("editor");
+  var myCodeMirror = CodeMirror(editor, {
+    mode:  "ruby",
+    theme: "hopscotch",
+    lineNumbers: true,
+    styleActiveLine: true,
+    matchBrackets: true
+  });
+
+
   var getMonitorId = _.memoize(function () {
     return $("#monitor-info").data("monitor-id");
   });
@@ -21,7 +31,16 @@ $(function() {
   var $allEvents = $("#all-events");
   var $monitorsTab = $("#monitors-tab");
   var $monitor = $("#monitor");
-  var $message =  $("#message");
+  var $message = $("#message");
+
+
+  var $url;
+  var $console = $("#console");
+  var syntaxErrorTemplate = _.template( $('#syntax-error-template').html() );
+  var resultsTemplate = _.template( $('#results-template').html() );
+  var maestroTestUrl = $("#maestro-info").data("maestro-test-url");
+  var maestroValidateUrl = $("#maestro-info").data("maestro-url");
+
 
   var Util = {
     init: function () {
@@ -58,6 +77,10 @@ $(function() {
       monitor.$el.html(
         monitor.template(data)
       );
+      myCodeMirror.setValue(data["exists?"])
+      myCodeMirror.refresh();
+      $url = $("#url");
+      Maestro.init($url, myCodeMirror, maestroValidateUrl, maestroTestUrl, $console, syntaxErrorTemplate, resultsTemplate);
     },
     update: function () {
       var data = {};
@@ -212,6 +235,7 @@ $(function() {
   $( "#test-button" ).on("click", function() { monitor.test(); });
   $( "#delete-button" ).on("click", function() { monitor.delete(); });
   $( "#update-monitor-button" ).on("click", function() { monitor.update(); });
+  $("#test-monitor").on("click", Maestro.test);
 
   Util.init()
   monitor.init()
@@ -219,5 +243,4 @@ $(function() {
 
   var monitorRouter = new MonitorRouter();
   Backbone.history.start();
-
 });

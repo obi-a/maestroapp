@@ -53,7 +53,11 @@
     <textarea id="source-code" name="source_code" class="hide"></textarea>
     <div class="row">
       <div class="columns">
-        <label>Validations & Actions
+        <label>Validations & Actions<br/>
+          <a id="test-monitor" href="#" class="tiny monitor-actions"><i class="fi-wrench icon"></i>Run</a>
+          <span data-tooltip aria-haspopup="true" class="has-tip" title="Run current validations & actions">
+            <i class="fi-info icon"></i>
+          </span>
           <div id="editor" name="code"></div>
         </label>
         <span id="console"></span>
@@ -71,7 +75,6 @@
 
   <div class="row" style="margin-top:15px;">
     <div class="columns">
-      <a id="test-monitor" data-maestro-test-url="<%= test_maestro_index_path %>" href="#" class="button tiny monitor-actions"><i class="fi-wrench icon"></i>Test</a>
       <a id="submit-monitor" href="#" class="button tiny monitor-actions"><i class="fi-arrow-right icon"></i>Submit</a>
     </div>
   </div>
