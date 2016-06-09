@@ -2,6 +2,8 @@ class DashboardController < ApplicationController
   before_filter :authenticate_user!
 
   def index
+    @client = Ragios::Client.new
+    @active_monitors = @client.where(user: current_user.email)
     @monitors = RagiosMonitor.where(user_id: current_user)
     add_breadcrumb "All Monitors", dashboard_index_path
   end

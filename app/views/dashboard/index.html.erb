@@ -16,7 +16,6 @@
     <table width="100%">
       <thead>
         <tr>
-          <th>Created at</th>
           <th>Monitor</th>
           <th>URL</th>
           <th>Every</th>
@@ -27,12 +26,11 @@
       <tbody>
         <% @monitors.each do |monitor| %>
           <tr>
-            <td><%= monitor.created_at.to_formatted_s(:long) %></td>
             <td><%= link_to monitor.title, monitor_dashboard_path(monitor) %></td>
             <td><%= monitor.url %></td>
             <td><%= "#{monitor.hours} hours, #{monitor.minutes} minutes" %></td>
             <td><%= monitor.monitor_type %></td>
-            <td><%= monitor_status(monitor.status.to_i) %></td>
+            <td><%= monitor_status(monitor.status.to_i, monitor.ragiosid, @active_monitors) %></td>
           </tr>
         <% end %>
       </tbody>

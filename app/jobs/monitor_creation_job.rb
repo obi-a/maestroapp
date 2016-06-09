@@ -11,7 +11,7 @@ class MonitorCreationJob < ActiveJob::Base
         url: m.url,
         via: "gmail_notifier",
         contact: m.user.email,
-        tag: m.user.id,
+        user: m.user.email,
         plugin: m.monitor_type,
         every: "#{m.hours}h#{m.minutes}m"
       }
