@@ -7,7 +7,8 @@
   data-start-url="<%= start_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"
   data-stop-url="<%= stop_ragios_monitors_path(ragios_id: @monitor.ragiosid) %>"
   data-restful-url="<%= ragios_monitor_path(@monitor.id) %>"
-  data-dashboard-url="<%= dashboard_index_path %>">
+  data-dashboard-url="<%= dashboard_index_path %>"
+  data-is-uptime-monitor="<%= (@monitor.monitor_type == "uptime_monitor") %>">
 </span>
 <div class="row">
   <div class="column">
@@ -86,33 +87,35 @@
                   </div>
                 </script>
 
-                <div class="row">
-                  <div class="columns">
-                    <div id="validations">
-                      <textarea id="source-code" name="source_code" class="hide"></textarea>
-                      <div class="row">
-                        <div class="columns">
-                          <label>Validations & Actions<br/>
-                            <a id="test-monitor" href="#" class="tiny monitor-actions"><i class="fi-wrench icon"></i>Run</a>
-                            <span data-tooltip aria-haspopup="true" class="has-tip" title="Run current validations & actions">
-                              <i class="fi-info icon"></i>
-                            </span>
-                            <div id="editor" name="code"></div>
-                          </label>
-                          <span id="console"></span>
-                          <script id="syntax-error-template" type="text/template">
-                            <div id="syntax-error" class="search-results">{{= error }}</div>
-                          </script>
-                          <script id="results-template" type="text/template">
-                            {{ _.each( results, function(i) { }}
-                              <div id="results" class="search-results">{{ if (i[0] !== "error") { }} ({{= _.indexOf(results,i) + 1 }}.) {{ } }}{{= i }}</div>
-                            {{ }); }}
-                          </script>
+                <% if @monitor.monitor_type == "uptime_monitor" %>
+                  <div class="row">
+                    <div class="columns">
+                      <div id="validations">
+                        <textarea id="source-code" name="source_code" class="hide"></textarea>
+                        <div class="row">
+                          <div class="columns">
+                            <label>Validations & Actions<br/>
+                              <a id="test-monitor" href="#" class="tiny monitor-actions"><i class="fi-wrench icon"></i>Run</a>
+                              <span data-tooltip aria-haspopup="true" class="has-tip" title="Run current validations & actions">
+                                <i class="fi-info icon"></i>
+                              </span>
+                              <div id="editor" name="code"></div>
+                            </label>
+                            <span id="console"></span>
+                            <script id="syntax-error-template" type="text/template">
+                              <div id="syntax-error" class="search-results">{{= error }}</div>
+                            </script>
+                            <script id="results-template" type="text/template">
+                              {{ _.each( results, function(i) { }}
+                                <div id="results" class="search-results">{{ if (i[0] !== "error") { }} ({{= _.indexOf(results,i) + 1 }}.) {{ } }}{{= i }}</div>
+                              {{ }); }}
+                            </script>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                <% end %>
 
 
                 <div class="row" style="margin-top:15px;">
