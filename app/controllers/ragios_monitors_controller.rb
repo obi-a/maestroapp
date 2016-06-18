@@ -48,7 +48,7 @@ class RagiosMonitorsController < ApplicationController
 
 
     if @ragios_monitor.save
-      MonitorCreationJob.perform_later(@ragios_monitor.id)
+      MonitorCreationJob.perform_later(@ragios_monitor.id, webhook_notifications_url)
       redirect_to dashboard_index_path, notice: 'Ragios monitor was successfully created.'
     else
       render :new

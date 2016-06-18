@@ -16,7 +16,7 @@ module DashboardHelper
         ('<span class="label alert">unknown</span>').html_safe
       end
     elsif status == RagiosMonitor.status(:pending)
-      ('<span class="label warning">pending</span>').html_safe
+      ('<span class="label secondary">pending</span>').html_safe
     end
   end
 end

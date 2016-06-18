@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'webhook/notifications'
+
   namespace :admin do
     DashboardManifest::DASHBOARDS.each do |dashboard_resource|
       resources dashboard_resource
@@ -21,6 +23,12 @@ Rails.application.routes.draw do
     collection do
       post :validate
       post :test
+    end
+  end
+
+  resources :webhook, only: :none do
+    collection do
+      post :notifications
     end
   end
 

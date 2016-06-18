@@ -2,15 +2,15 @@ class MonitorCreationJob < ActiveJob::Base
   # Set the Queue as Default
   queue_as :default
 
-  def perform(monitor_id)
+  def perform(monitor_id, webhook_url)
     ragios = Ragios::Client.new
     ActiveRecord::Base.connection_pool.with_connection do
       m = RagiosMonitor.find(monitor_id)
       options = {
         monitor: m.title,
         url: m.url,
-        via: "gmail_notifier",
-        contact: m.user.email,
+        via: "webhook_notifier",
+        webhook_url: webhook_url,
         user: m.user.email,
         plugin: m.monitor_type,
         every: "#{m.hours}h#{m.minutes}m"
