@@ -8,6 +8,12 @@ class DashboardController < ApplicationController
     add_breadcrumb "All Monitors", dashboard_index_path
   end
 
+  def notifications
+    @email_notifiers = [] #User.email_notifiers
+    add_breadcrumb "All Monitors", dashboard_index_path
+    add_breadcrumb "Notifications", notifications_dashboard_index_path
+  end
+
   def monitor
     @monitor = RagiosMonitor.where(user_id: current_user, id: params[:id]).first
     add_breadcrumb "All Monitors", dashboard_index_path

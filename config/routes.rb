@@ -40,6 +40,9 @@ Rails.application.routes.draw do
     member do
       get :monitor
     end
+    collection do
+      get :notifications
+    end
   end
 
   get 'pages/home'
