@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151130041110) do
+ActiveRecord::Schema.define(version: 20160621015657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "email_notifiers", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "ragios_monitor_id"
+    t.string   "email"
+    t.boolean  "verified",          default: false, null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
+  end
+
+  add_index "email_notifiers", ["ragios_monitor_id"], name: "index_email_notifiers_on_ragios_monitor_id", using: :btree
+  add_index "email_notifiers", ["user_id"], name: "index_email_notifiers_on_user_id", using: :btree
 
   create_table "ragios_monitors", force: :cascade do |t|
     t.string   "title"
