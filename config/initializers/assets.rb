@@ -12,5 +12,6 @@ Rails.application.config.assets.version = '1.0'
 
 Rails.application.config.assets.precompile += [
   "monitor.js",
-  "new_monitors.js"
+  "new_monitors.js",
+  "notifications.js"
 ]

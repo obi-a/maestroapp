@@ -1,3 +1,4 @@
+<%= javascript_include_tag "notifications" %>
 <div class="row">
   <div class="column">
     <ul class="breadcrumbs">
@@ -6,7 +7,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="column">
+  <div class="column medium-8">
     <div class="panel">
       <table width="100%">
         <thead>
@@ -18,7 +19,7 @@
         <tbody>
           <% if @email_notifiers %>
             <tr>
-              <td>There are no email alerts</td>
+              <td>There are no alert emails</td>
             </tr>
           <% else %>
             <% @email_notifiers.each do |monitor| %>
@@ -30,11 +31,25 @@
           <% end %>
         </tbody>
       </table>
-      <div class="row" style="margin-top:15px;">
-        <div class="columns">
-          <a href="<%= new_ragios_monitor_path %>" class="button tiny"><i class="fi-plus icon"></i>Add New Email</a>
+    </div>
+  </div>
+  <div class="column medium-4">
+    <div class="panel">
+      <form>
+        <div class="row">
+          <div class="columns">
+            <label>Add New Email <small>required</small>
+              <input type="text" name="title" required>
+            </label>
+            <!--<small class="error">A Title is required.</small>-->
+          </div>
         </div>
-      </div>
+        <div class="row">
+          <div class="columns">
+            <a href="<%= new_ragios_monitor_path %>" class="button tiny"><i class="fi-plus icon"></i>Submit</a>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>
