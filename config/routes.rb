@@ -32,6 +32,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :email_notifiers, only: [:create, :update, :destroy]
+
   #get 'dashboard/index'
 
   #get 'dashboard/monitor'

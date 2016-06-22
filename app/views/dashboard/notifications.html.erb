@@ -6,9 +6,22 @@
     </ul>
   </div>
 </div>
+
+<div class="row">
+  <div class="column">
+    <% flash.each do |key, value| %>
+      <div data-alert class="alert-box <%= key %>">
+        <div><%= value %></div>
+        <a href="#" class="close">&times;</a>
+      </div>
+    <% end %>
+  </div>
+</div>
+
 <div class="row">
   <div class="column medium-8">
     <div class="panel">
+      <h3> Alert Emails</h3>
       <table width="100%">
         <thead>
           <tr>
@@ -35,18 +48,18 @@
   </div>
   <div class="column medium-4">
     <div class="panel">
-      <form>
+      <%= form_tag email_notifiers_path, method: :post, data: {abide: ''} %>
         <div class="row">
           <div class="columns">
             <label>Add New Email <small>required</small>
-              <input type="text" name="title" required>
+              <input type="email" name="email" required>
             </label>
-            <!--<small class="error">A Title is required.</small>-->
+            <small class="error">A valid Email Address is required.</small>
           </div>
         </div>
         <div class="row">
           <div class="columns">
-            <a href="<%= new_ragios_monitor_path %>" class="button tiny"><i class="fi-plus icon"></i>Submit</a>
+            <button class="button tiny" type="submit"><i class="fi-plus icon"></i>Submit</button>
           </div>
         </div>
       </form>
