@@ -5,7 +5,9 @@ class CreateEmailNotifiers < ActiveRecord::Migration
       t.belongs_to :ragios_monitor, index:true
       t.string :email
       t.boolean :verified, null: false, default: false
+      t.string :verification_token
       t.timestamps null: false
+      t.index :verification_token, unique: true
     end
   end
 end

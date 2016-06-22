@@ -20,13 +20,15 @@ ActiveRecord::Schema.define(version: 20160621015657) do
     t.integer  "user_id"
     t.integer  "ragios_monitor_id"
     t.string   "email"
-    t.boolean  "verified",          default: false, null: false
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.boolean  "verified",           default: false, null: false
+    t.string   "verification_token"
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
   end
 
   add_index "email_notifiers", ["ragios_monitor_id"], name: "index_email_notifiers_on_ragios_monitor_id", using: :btree
   add_index "email_notifiers", ["user_id"], name: "index_email_notifiers_on_user_id", using: :btree
+  add_index "email_notifiers", ["verification_token"], name: "index_email_notifiers_on_verification_token", unique: true, using: :btree
 
   create_table "ragios_monitors", force: :cascade do |t|
     t.string   "title"
