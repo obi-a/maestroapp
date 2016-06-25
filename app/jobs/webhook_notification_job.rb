@@ -3,6 +3,7 @@ class WebhookNotificationJob < ActiveJob::Base
   queue_as :default
 
   def perform(params)
+     mailing_list = ["obi@maestroapp.com"]
     if params[:event].to_sym == :failed
       NotificationsMailer.failed(mailing_list, params[:monitor], params[:test_result])
     elsif params[:event].to_sym == :resolved

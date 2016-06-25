@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20160621015657) do
     t.string   "email"
     t.boolean  "verified",           default: false, null: false
     t.string   "verification_token"
+    t.datetime "token_timestamp"
     t.datetime "created_at",                         null: false
     t.datetime "updated_at",                         null: false
   end

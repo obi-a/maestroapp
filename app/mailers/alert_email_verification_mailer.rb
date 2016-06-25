@@ -4,6 +4,6 @@ class AlertEmailVerificationMailer < ApplicationMailer
     subject = "Please verify your email address"
     @firstname = firstname
     @verification_url = verification_url
-    mail to: email, subject
+    mail to: email, subject: subject
   end
 end

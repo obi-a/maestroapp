@@ -5,7 +5,7 @@ class NotificationsMailer < ApplicationMailer
     @test_result = test_result
     subject = "#{@monitor[:monitor]} FAILED"
 
-    mail to: mailing_list, subject
+    mail to: mailing_list, subject: subject
   end
 
   def resolved(mailing_list, monitor, test_result)
@@ -13,6 +13,6 @@ class NotificationsMailer < ApplicationMailer
     @test_result = test_result
     subject = "ISSUE RESOLVED #{@monitor[:monitor]} PASSED"
 
-    mail to: mailing_list, subject
+    mail to: mailing_list, subject: subject
   end
 end

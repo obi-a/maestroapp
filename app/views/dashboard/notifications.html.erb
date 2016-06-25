@@ -26,18 +26,20 @@
         <thead>
           <tr>
             <th>Email</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <% if @email_notifiers %>
+          <% if @email_notifiers.blank? %>
             <tr>
               <td>There are no alert emails</td>
             </tr>
           <% else %>
-            <% @email_notifiers.each do |monitor| %>
+            <% @email_notifiers.each do |n| %>
               <tr>
-                <td></td>
+                <td><%= n.email %></td>
+                <td><%= n.verified ? "verified" : "Awaiting verification" %></td>
                 <td></td>
               </tr>
             <% end %>

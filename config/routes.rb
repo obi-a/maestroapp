@@ -32,7 +32,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :email_notifiers, only: [:create, :update, :destroy]
+  resources :email_notifiers, only: [:create, :update, :destroy] do
+    collection do
+      get :verification
+    end
+  end
 
   #get 'dashboard/index'
 

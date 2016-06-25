@@ -6,7 +6,7 @@ class AlertEmailVerificationJob < ActiveJob::Base
     ActiveRecord::Base.connection_pool.with_connection do
       notifier = EmailNotifier.find_by_id(email_notifier_id)
       return false unless notifier
-      notifier.update_attribute(:token_timestamp, Time.now.to_i)
+      notifier.update_attribute(:token_timestamp, DateTime.now)
       AlertEmailVerificationMailer.verify(notifier.email, verification_url, firstname)
     end
   end
