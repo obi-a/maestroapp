@@ -7,6 +7,16 @@
 </div>
 <div class="row">
   <div class="column">
+    <% flash.each do |key, value| %>
+      <div data-alert class="alert-box <%= key %>">
+        <div><%= value %></div>
+        <a href="#" class="close">&times;</a>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="row">
+  <div class="column">
     <div class="panel">
       <a href="<%= new_ragios_monitor_path %>" class="button tiny"><i class="fi-plus icon"></i>Add New Monitor</a>
     </div>

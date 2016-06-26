@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :email_notifiers, only: [:create, :update, :destroy] do
+  resources :email_notifiers, only: [:create, :destroy] do
     collection do
       get :verification
     end

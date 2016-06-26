@@ -40,7 +40,9 @@
               <tr>
                 <td><%= n.email %></td>
                 <td><%= n.verified ? "verified" : "Awaiting verification" %></td>
-                <td></td>
+                <td>
+                  <%= link_to "<i class=\"fi-trash\"></i>".html_safe, email_notifier_path(n), title: "Delete this alert email", data: {confirm: "Are you sure you want to delete this email (#{n.email})?"}, method: :delete %>
+                </td>
               </tr>
             <% end %>
           <% end %>
