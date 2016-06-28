@@ -15,6 +15,7 @@ class RagiosMonitorsController < ApplicationController
   # GET /ragios_monitors/new
   def new
     @ragios_monitor = RagiosMonitor.new
+    @alert_emails = current_user.email_notifiers.where(verified: true)
     add_breadcrumb "All Monitors", dashboard_index_path
     add_breadcrumb "Add New Monitor", new_ragios_monitor_path
   end
@@ -27,6 +28,10 @@ class RagiosMonitorsController < ApplicationController
     response = @client.find(params[:ragios_id])
     response[:hours], response[:minutes] = @ragios_monitor.hours, @ragios_monitor.minutes
     render json: response.to_json
+  rescue Ragios::ClientException => e
+    #TODO: cleanup and make error handling generic for all methods in the controller
+    m = {error: e.message}
+    render json: m.to_json, status: 500
   end
 
   # POST /ragios_monitors
@@ -49,6 +54,10 @@ class RagiosMonitorsController < ApplicationController
 
     if @ragios_monitor.save
       MonitorCreationJob.perform_later(@ragios_monitor.id, webhook_notifications_url)
+      if params[:alert_emails]
+        notifiers = EmailNotifier.where(email: params[:alert_emails], verified: true)
+        @ragios_monitor.email_notifiers << notifiers
+      end
       redirect_to dashboard_index_path, info: 'Ragios monitor was successfully created.'
     else
       render :new

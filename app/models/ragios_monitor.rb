@@ -1,5 +1,6 @@
 class RagiosMonitor < ActiveRecord::Base
   belongs_to :user
+  has_many :email_notifiers
 
   STATUSES = %w(pending active cannot_create)
 
