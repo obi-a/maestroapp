@@ -86,7 +86,18 @@
                     </div>
                   </div>
                 </script>
-
+                <div class="row">
+                  <div class="columns">
+                    <% if @email_notifiers.blank? %>
+                      You have not add an alert email, add alert emails <%= link_to "here", notifications_dashboard_index_path %>
+                    <% else %>
+                      <label>Send Email alerts to:</label>
+                      <% @email_notifiers.each do |n| %>
+                        <input id="alert_emails_<%=n.id%>" name="alert_emails[]" type="checkbox" value="<%= n.email %>"  <%= checked(n, @current_alert_emails) %>><label for="alert_emails_<%=n.id%>"><%= n.email %></label>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
                 <% if @monitor.monitor_type == "uptime_monitor" %>
                   <div class="row">
                     <div class="columns">

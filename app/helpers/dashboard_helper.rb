@@ -19,6 +19,10 @@ module DashboardHelper
       ('<span class="label secondary">pending</span>').html_safe
     end
   end
+
+  def checked(email_notifier, current_notifiers_list)
+    current_notifiers_list.include?(email_notifier.email) ? "checked" : ""
+  end
 end
 
 
