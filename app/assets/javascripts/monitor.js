@@ -89,6 +89,19 @@ $(function() {
     update: function () {
       var data = {};
       monitor.$form.serializeArray().map(function(i){data[i.name] = i.value;});
+
+      var alert_emails = [];
+
+      $('input:checkbox').map(function() {
+        if( this.checked ) {
+          alert_emails.push(this.value)
+        }
+      });
+
+      if(!_.isEmpty(alert_emails) ) {
+        data.alert_emails = alert_emails
+      }
+
       var attributesJson = JSON.stringify( data );
       ragios.update( restfulUrl, attributesJson, Util.success, Util.error );
     },

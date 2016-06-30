@@ -54,10 +54,7 @@ class RagiosMonitorsController < ApplicationController
 
     if @ragios_monitor.save
       MonitorCreationJob.perform_later(@ragios_monitor.id, webhook_notifications_url)
-      if params[:alert_emails]
-        notifiers = EmailNotifier.where(email: params[:alert_emails], verified: true)
-        @ragios_monitor.email_notifiers << notifiers
-      end
+      add_email_notifiers
       redirect_to dashboard_index_path, info: 'Ragios monitor was successfully created.'
     else
       render :new
@@ -93,6 +90,7 @@ class RagiosMonitorsController < ApplicationController
       monitor: params[:title]
     )
     @ragios_monitor.update(ragios_monitor_params)
+    add_email_notifiers
     render json: response.to_json
   end
 
@@ -104,6 +102,15 @@ class RagiosMonitorsController < ApplicationController
   end
 
   private
+    def add_email_notifiers
+      if params[:alert_emails]
+        notifiers = EmailNotifier.where(email: params[:alert_emails], verified: true)
+        @ragios_monitor.email_notifiers = notifiers
+      else
+        @ragios_monitor.email_notifiers = []
+      end
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_ragios_monitor
       @ragios_monitor = RagiosMonitor.find(params[:id])

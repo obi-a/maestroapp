@@ -93,7 +93,7 @@
                     <% else %>
                       <label>Send Email alerts to:</label>
                       <% @email_notifiers.each do |n| %>
-                        <input id="alert_emails_<%=n.id%>" name="alert_emails[]" type="checkbox" value="<%= n.email %>"  <%= checked(n, @current_alert_emails) %>><label for="alert_emails_<%=n.id%>"><%= n.email %></label>
+                        <input id="alert_emails_<%=n.id%>" class="alert-emails" name="alert_emails" type="checkbox" value="<%= n.email %>"  <%= checked(n, @current_alert_emails) %>><label for="alert_emails_<%=n.id%>"><%= n.email %></label>
                       <% end %>
                     <% end %>
                   </div>
