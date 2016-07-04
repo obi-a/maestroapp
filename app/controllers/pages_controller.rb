@@ -1,5 +1,6 @@
 class PagesController < ApplicationController
   def home
+    @guest_monitor = guest_user.ragios_monitors.first || RagiosMonitor.new
   end
 
   def about

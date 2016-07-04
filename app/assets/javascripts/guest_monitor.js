@@ -7,9 +7,8 @@ $(function () {
     evaluate: /\{\{(.+?)\}\}/g
   };
 
-  $(document).foundation();
-
   var maestroCode = $("#maestro-info").data("source-code");
+
   var code = !!maestroCode ? maestroCode : ""
 
   var editor = document.getElementById("editor");
@@ -22,8 +21,10 @@ $(function () {
     matchBrackets: true
   });
 
+
+
   var httpCheck = false;
-  var $form = $("#new_ragios_monitor");
+  var $form = $("#new_guest_monitor");
   var $sourceCode = $("#source-code");
 
   var $url = $("#url");
@@ -34,34 +35,20 @@ $(function () {
   var maestroValidateUrl = $("#maestro-info").data("maestro-url");
 
 
+
   var ProcessMonitor = {
     init: function() {
-      $("#http_check").on("change", this.showHttpCheck);
-      $("#real_browser_monitor").on("change", this.showRealBrowserMonitor);
       $("#submit-monitor").on("click", this.submitMonitor);
       $("#test-monitor").on("click", Maestro.test);
     },
-    showHttpCheck: function() {
-      httpCheck = true;
-      $("#validations").hide("slow");
-      $("#test-monitor").hide();
-    },
-    showRealBrowserMonitor: function() {
-      httpCheck = false;
-      $("#validations").show("slow");
-      $("#test-monitor").show();
-    },
     submitMonitor: function(e) {
       e.preventDefault();
-      if(httpCheck) {
-        $form.submit();
-      } else {
-        var sourceCode = myCodeMirror.getValue();
-        $sourceCode.val(sourceCode);
-        $form.submit();
-      }
+      var sourceCode = myCodeMirror.getValue();
+      $sourceCode.val(sourceCode);
+      $form.submit();
     }
   }
+
 
   Maestro.init($url, myCodeMirror, maestroValidateUrl, maestroTestUrl, $console, syntaxErrorTemplate, resultsTemplate);
   ProcessMonitor.init();

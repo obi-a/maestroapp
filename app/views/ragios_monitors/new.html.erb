@@ -1,10 +1,20 @@
 <%= javascript_include_tag "new_monitors" %>
-<span id="maestro-info" data-maestro-url="<%= validate_maestro_index_path %>" data-maestro-test-url="<%= test_maestro_index_path %>"></span>
+<span id="maestro-info" data-maestro-url="<%= validate_maestro_index_path %>" data-maestro-test-url="<%= test_maestro_index_path %>" data-source-code="<%= @ragios_monitor.code %>"></span>
 <div class="row">
   <div class="column">
     <ul class="breadcrumbs">
       <%= render_breadcrumbs :tag => :li, :separator => "" %>
     </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="column">
+    <% flash.each do |key, value| %>
+      <div data-alert class="alert-box <%= key %>">
+        <div><%= value %></div>
+        <a href="#" class="close">&times;</a>
+      </div>
+    <% end %>
   </div>
 </div>
 <div class="row">

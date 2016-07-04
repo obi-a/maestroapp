@@ -38,6 +38,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :guest_monitor, only: [:create]
+
   #get 'dashboard/index'
 
   #get 'dashboard/monitor'

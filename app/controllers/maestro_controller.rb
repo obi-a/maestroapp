@@ -1,7 +1,7 @@
 require 'parser'
 
 class MaestroController < ApplicationController
-  before_filter :authenticate_user!
+ # before_filter :authenticate_user!
   before_action :set_client, only: [:test]
 
   def test

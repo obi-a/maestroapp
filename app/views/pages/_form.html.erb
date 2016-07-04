@@ -1,0 +1,48 @@
+<%= form_for(@guest_monitor, url: guest_monitor_index_path, method: :post, html: {id: "new_guest_monitor" , data: { abide: '' }}) do |f| %>
+  <% if @guest_monitor.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@ragios_monitor.errors.count, "error") %> prohibited this ragios_monitor from being saved:</h2>
+      <ul>
+        <% @guest_monitor.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="columns small-6">
+      <label>Fill in URL <small>required</small>
+        <input id="url" type="text" name="url" value="<%= @guest_monitor.url %>" required>
+      </label>
+      <small class="error">A URL is required</small>
+    </div>
+  </div>
+
+  <div id="validations">
+    <textarea id="source-code" name="source_code" class="hide"></textarea>
+    <div class="row">
+      <div class="columns">
+        <label>Fill in Validations & Actions<br/>
+          <div id="editor" name="code"></div>
+        </label>
+        <span id="console"></span>
+        <script id="syntax-error-template" type="text/template">
+          <div id="syntax-error" class="search-results">{{= error }}</div>
+        </script>
+        <script id="results-template" type="text/template">
+          {{ _.each( results, function(i) { }}
+            <div id="results" class="search-results">{{ if (i[0] !== "error") { }} ({{= _.indexOf(results,i) + 1 }}.) {{ } }}{{= i }}</div>
+          {{ }); }}
+        </script>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top:15px;">
+    <div class="columns">
+      <a id="test-monitor" class="button tiny monitor-actions"><i class="fi-wrench icon"></i>Run Script</a>
+      <a id="submit-monitor" class="button tiny monitor-actions"><i class="fi-arrow-right icon"></i>Save & Continue</a>
+    </div>
+  </div>
+<% end %>

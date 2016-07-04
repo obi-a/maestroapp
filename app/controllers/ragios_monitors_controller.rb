@@ -14,7 +14,16 @@ class RagiosMonitorsController < ApplicationController
 
   # GET /ragios_monitors/new
   def new
-    @ragios_monitor = RagiosMonitor.new
+    guest = User.find_by_id(session[:guest_user_id])
+    @ragios_monitor = guest&.ragios_monitors&.first || RagiosMonitor.new
+
+    if guest
+      flash[:info] = "Fill in the remaining fields and submit"
+      guest.ragios_monitors.destroy_all
+      guest.destroy
+      session.delete(:guest_user_id)
+    end
+
     @alert_emails = current_user.email_notifiers.where(verified: true)
     add_breadcrumb "All Monitors", dashboard_index_path
     add_breadcrumb "Add New Monitor", new_ragios_monitor_path

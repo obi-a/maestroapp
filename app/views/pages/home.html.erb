@@ -1,3 +1,5 @@
+<%= javascript_include_tag "guest_monitor" %>
+<span id="maestro-info" data-maestro-url="<%= validate_maestro_index_path %>" data-maestro-test-url="<%= test_maestro_index_path %>" data-source-code="<%= @guest_monitor.code %>"></span>
 <section id="header">
   <div class="row">
     <div class="column">
@@ -7,13 +9,30 @@
 </section>
 <section id="sub-header">
   <div class="row">
-    <div class="column large-6 small-6 medium-6">
-      <p class="caption">Monitor your website with a real web browser</p>
+    <div class="column medium-6">
+      <p class="caption">Monitor your website with actions & validations like a real user</p>
+      <p class="caption">Our automated firefox browser will run your validations & actions</p>
+      <p class="caption">Set time intervals to run your valiadations and actions</p>
+    </div>
+    <div class="column medium-6">
       <p class="caption">Discover errors before your users</p>
       <p class="caption">Receive screenshots when we detect an error</p>
-    </div>
-    <div class="column large-6 small-6 medium-6">
-      <p class="caption">Register here. Get started.</p>
+      <p class="caption">Register <%= link_to "here", new_user_registration_path %></p>
     </div>
   </div>
+</section>
+<section id="start-here">
+  <div class="row">
+    <div class="column">
+      <h5>Try it here</h5>
+    </div>
+  </div>
+  <div class="row">
+    <div class="columns">
+      <div class="panel">
+        <%= render 'form' %>
+      </div>
+    </div>
+  </div>
+
 </section>

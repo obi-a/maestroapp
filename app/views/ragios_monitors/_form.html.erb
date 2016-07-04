@@ -19,7 +19,7 @@
     </div>
     <div class="columns small-6">
       <label>URL <small>required</small>
-        <input id="url" type="text" name="url" required>
+        <input id="url" type="text" name="url" value="<%= @ragios_monitor.url %>" required>
       </label>
       <small class="error">A URL is required</small>
     </div>
@@ -52,7 +52,7 @@
   <div class="row">
     <div class="columns">
       <% if @alert_emails.blank? %>
-        You have not add an alert email, add alert emails <%= link_to "here", notifications_dashboard_index_path %>
+        You have not added an alert email, add alert emails <%= link_to "here", notifications_dashboard_index_path %>
       <% else %>
         <label>Send Email alerts to:</label>
         <% @alert_emails.each do |n| %>

@@ -1,3 +1,13 @@
+<div class="row">
+  <div class="column">
+    <% flash.each do |key, value| %>
+      <div data-alert class="alert-box <%= key %>">
+        <div><%= value %></div>
+        <a href="#" class="close">&times;</a>
+      </div>
+    <% end %>
+  </div>
+</div>
 <section id="signup">
   <div class="row">
     <h2>Sign up</h2>

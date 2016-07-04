@@ -1,5 +1,14 @@
 <h2>Log in</h2>
-
+<div class="row">
+  <div class="column">
+    <% flash.each do |key, value| %>
+      <div data-alert class="alert-box <%= key %>">
+        <div><%= value %></div>
+        <a href="#" class="close">&times;</a>
+      </div>
+    <% end %>
+  </div>
+</div>
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
     <%= f.label :email %><br />
