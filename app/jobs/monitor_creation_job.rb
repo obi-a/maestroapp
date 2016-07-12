@@ -3,7 +3,7 @@ class MonitorCreationJob < ActiveJob::Base
   queue_as :default
 
   def perform(monitor_id, webhook_url)
-    ragios = Ragios::Client.new
+    client = RagiosMonitor.client
     ActiveRecord::Base.connection_pool.with_connection do
       m = RagiosMonitor.find(monitor_id)
       options = {
@@ -17,7 +17,7 @@ class MonitorCreationJob < ActiveJob::Base
       }
       options[:browser] = "firefox headless"
       options[:exists?] = m.code
-      response = ragios.create(options)
+      response = client.create(options)
 
       if response["error"]
         m.update_attributes(

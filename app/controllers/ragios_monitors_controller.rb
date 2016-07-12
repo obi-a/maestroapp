@@ -126,7 +126,7 @@ class RagiosMonitorsController < ApplicationController
     end
 
     def set_client
-      @client ||= Ragios::Client.new
+      @client ||= RagiosMonitor.client
     end
 
     # Only allow a trusted parameter "white list" through.

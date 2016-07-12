@@ -7,4 +7,8 @@ class RagiosMonitor < ActiveRecord::Base
   def self.status(value)
     STATUSES.index(value.to_s)
   end
+
+  def self.client
+    @ragios_client ||= Ragios::Client.new
+  end
 end

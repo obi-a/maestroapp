@@ -27,6 +27,6 @@ class MaestroController < ApplicationController
   private
 
     def set_client
-      @client ||= Ragios::Client.new
+      @client ||= RagiosMonitor.client
     end
 end
