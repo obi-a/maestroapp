@@ -9,6 +9,12 @@ class RagiosMonitor < ActiveRecord::Base
   end
 
   def self.client
-    @ragios_client ||= Ragios::Client.new
+    @ragios_client ||= Ragios::Client.new(
+      username: ENV["RAGIOS_SERVER_USERNAME"],
+      password: ENV["RAGIOS_SERVER_PASSWORD"],
+      address: ENV["RAGIOS_SERVER_URL"],
+      port: ENV["RAGIOS_SERVER_PORT"]
+    )
+    #Ragios::Client.new
   end
 end

@@ -11,3 +11,8 @@
 /log/*
 !/log/.keep
 /tmp
+
+# config file
+.env
+.env.*
+!.env.example
