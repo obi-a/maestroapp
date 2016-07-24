@@ -35,6 +35,7 @@
             <div id="results" class="search-results">{{ if (i[0] !== "error") { }} ({{= _.indexOf(results,i) + 1 }}.) {{ } }}{{= i }}</div>
           {{ }); }}
         </script>
+        <%= render "shared/loading_effect" %>
       </div>
     </div>
   </div>

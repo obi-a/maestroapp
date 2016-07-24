@@ -106,7 +106,7 @@
                         <div class="row">
                           <div class="columns">
                             <label>Validations & Actions<br/>
-                              <a id="test-monitor" href="#" class="tiny monitor-actions"><i class="fi-wrench icon"></i>Run</a>
+                              <a id="test-monitor" href="javascript:void(0);" class="tiny monitor-actions"><i class="fi-wrench icon"></i>Run</a>
                               <span data-tooltip aria-haspopup="true" class="has-tip" title="Run current validations & actions">
                                 <i class="fi-info icon"></i>
                               </span>
@@ -121,14 +121,13 @@
                                 <div id="results" class="search-results">{{ if (i[0] !== "error") { }} ({{= _.indexOf(results,i) + 1 }}.) {{ } }}{{= i }}</div>
                               {{ }); }}
                             </script>
+                            <%= render "shared/loading_effect" %>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 <% end %>
-
-
                 <div class="row" style="margin-top:15px;">
                   <div class="columns">
                     <a id="update-monitor-button" href="#" class="button tiny"><i class="fi-save icon"></i>Update Monitor</a>
@@ -138,7 +137,6 @@
                     <a id="delete-button" href="#" class="button tiny"><i class="fi-trash icon"></i>Delete Monitor</a>
                   </div>
                 </div>
-
               </form>
             </div>
           </div>

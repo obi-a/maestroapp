@@ -24,6 +24,7 @@ $(function() {
     var resultsTemplate = _.template( $('#results-template').html() );
     var maestroTestUrl = $("#maestro-info").data("maestro-test-url");
     var maestroValidateUrl = $("#maestro-info").data("maestro-url");
+    var loadingTemplate = _.template( $("#simple-loader-template").html() );
   }
 
 
@@ -83,7 +84,7 @@ $(function() {
         myCodeMirror.setValue(data["exists?"])
         myCodeMirror.refresh();
         $url = $("#url");
-        Maestro.init($url, myCodeMirror, maestroValidateUrl, maestroTestUrl, $console, syntaxErrorTemplate, resultsTemplate);
+        Maestro.init($url, myCodeMirror, maestroValidateUrl, maestroTestUrl, $console, syntaxErrorTemplate, resultsTemplate, loadingTemplate);
       }
     },
     update: function () {
@@ -120,6 +121,7 @@ $(function() {
     },
     test: function () {
       if( ragiosHelper.confirm("Are you sure you want to test this monitor?") ) {
+        if (uptimeMonitor) $console.html(loadingTemplate)
         ragios.test( testUrl, Util.success, Util.error);
       }
     },

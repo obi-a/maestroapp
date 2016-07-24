@@ -1,12 +1,13 @@
 
 //TODO: fix horrible code
 var Maestro = {
-  init: function($url, editor, validationUrl, testUrl, $console, syntaxErrorTemplate, resultsTemplate){
+  init: function($url, editor, validationUrl, testUrl, $console, syntaxErrorTemplate, resultsTemplate, loadingTemplate){
     this.$urlEl = $url;
     this.testUrl = testUrl;
     this.$console = $console;
     this.resultsTemplate = resultsTemplate;
     this.syntaxErrorTemplate = syntaxErrorTemplate;
+    this.loadingTemplate = loadingTemplate;
     this.editor = editor;
     this.editor.on("changes", function(doc, _){
       var sourceCode = doc.getValue();
@@ -17,6 +18,9 @@ var Maestro = {
     var url = Maestro.$urlEl.val();
     var sourceCode = Maestro.editor.getValue();
     if (url.length > 0) {
+      Maestro.$console.html(
+        Maestro.loadingTemplate
+      )
       ragios.testMaestro(Maestro.testUrl, url, sourceCode, Maestro.testResponse, Maestro.error)
     } else {
       Maestro.$console.html("<div class=\"search-results\">Fill in URL field before running a test.</div>");

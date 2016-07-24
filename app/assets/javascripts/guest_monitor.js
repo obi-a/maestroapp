@@ -33,6 +33,7 @@ $(function () {
   var resultsTemplate = _.template( $('#results-template').html() );
   var maestroTestUrl = $("#maestro-info").data("maestro-test-url");
   var maestroValidateUrl = $("#maestro-info").data("maestro-url");
+  var loadingTemplate = _.template( $("#simple-loader-template").html() );
 
 
 
@@ -50,6 +51,6 @@ $(function () {
   }
 
 
-  Maestro.init($url, myCodeMirror, maestroValidateUrl, maestroTestUrl, $console, syntaxErrorTemplate, resultsTemplate);
+  Maestro.init($url, myCodeMirror, maestroValidateUrl, maestroTestUrl, $console, syntaxErrorTemplate, resultsTemplate, loadingTemplate);
   ProcessMonitor.init();
 });
