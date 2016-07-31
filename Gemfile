@@ -21,6 +21,8 @@ gem 'foundation-icons-sass-rails'
 gem 'jquery-datatables-rails', '~> 3.3.0'
 gem 'treetop'
 gem 'has_secure_token'
+gem 'dalli'
+gem 'memcachier'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -42,7 +44,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'pry-rails'
-  #gem 'rack-mini-profiler'
+  gem 'rack-mini-profiler'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

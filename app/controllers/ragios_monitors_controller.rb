@@ -2,10 +2,10 @@ class RagiosMonitorsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_ragios_monitor, only: [:edit, :update, :show, :find, :destroy]
   before_action :set_client, only: [:events, :find, :test, :stop, :start, :update, :destroy]
+  before_action :touch_monitor, only: [:test, :stop, :start]
 
   # GET /ragios_monitors
   def index
-    @ragios_monitors = RagiosMonitor.where(user_id: current_user)
   end
 
   # GET /ragios_monitors/1
@@ -34,11 +34,9 @@ class RagiosMonitorsController < ApplicationController
   end
 
   def find
-    response = @client.find(params[:ragios_id])
-    response[:hours], response[:minutes] = @ragios_monitor.hours, @ragios_monitor.minutes
+    response = current_user.cached_find_monitor(params[:ragios_id])
     render json: response.to_json
   rescue Ragios::ClientException => e
-    #TODO: cleanup and make error handling generic for all methods in the controller
     m = {error: e.message}
     render json: m.to_json, status: 500
   end
@@ -86,7 +84,7 @@ class RagiosMonitorsController < ApplicationController
   end
 
   def events
-    response = @client.events(params[:ragios_id], "1980","2040", 50)
+    response = current_user.cached_monitor_events(params[:ragios_id])
     render json: response.to_json
   end
 
@@ -122,11 +120,21 @@ class RagiosMonitorsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_ragios_monitor
-      @ragios_monitor = RagiosMonitor.find(params[:id])
+      @ragios_monitor = current_user.cached_monitor(params[:id])
     end
 
     def set_client
       @client ||= RagiosMonitor.client
+    end
+
+    def touch_monitor
+      monitor = current_user.cached_ragios_monitor(params[:ragios_id])
+      if monitor
+        monitor.touch
+        true
+      else
+        false
+      end
     end
 
     # Only allow a trusted parameter "white list" through.

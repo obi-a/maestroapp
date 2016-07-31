@@ -2,6 +2,8 @@ class RagiosMonitor < ActiveRecord::Base
   belongs_to :user
   has_many :email_notifiers
 
+  after_commit :flush_cache
+
   STATUSES = %w(pending active cannot_create)
 
   def self.status(value)
@@ -15,6 +17,31 @@ class RagiosMonitor < ActiveRecord::Base
       address: ENV["RAGIOS_SERVER_URL"],
       port: ENV["RAGIOS_SERVER_PORT"]
     )
-    #Ragios::Client.new
+  end
+
+  def self.cached_expire_in(ragiosid)
+    Rails.cache.fetch("monitor_#{ragiosid}_expire_in") do
+      monitor = RagiosMonitor.where(ragiosid: ragiosid).first
+      if monitor
+        ((monitor.hours * 60 * 60) + (monitor.minutes * 60)) - 5
+      end
+    end
+  end
+
+  def cached_email_notifiers
+    Rails.cache.fetch([self.class.name, id, :email_notifiers], expires_in: 240.hours) do
+      self.email_notifiers.to_a
+    end
+  end
+
+
+  def flush_cache
+    Rails.cache.delete([self.user.class.name, self.user_id, :active_monitors])
+    Rails.cache.delete([self.user.class.name, self.user_id, :monitors])
+    Rails.cache.delete([self.user.class.name, self.user_id, self.id, :monitor])
+    Rails.cache.delete([self.user.class.name, self.user_id, self.ragiosid, :find_monitor])
+    Rails.cache.delete([self.user.class.name, self.user_id, self.ragiosid, :event_expires_in])
+    Rails.cache.delete([self.user.class.name, self.user_id, self.ragiosid, :monitor_events])
+    Rails.cache.delete([self.user.class.name, self.user_id, self.ragiosid, :ragios_monitor])
   end
 end
