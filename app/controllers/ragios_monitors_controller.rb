@@ -94,9 +94,10 @@ class RagiosMonitorsController < ApplicationController
       @ragios_monitor.ragiosid,
       url: params[:url],
       every: "#{params[:hours]}h#{params[:minutes]}m",
-      monitor: params[:title]
+      monitor: params[:title],
+      exists?: params[:source_code]
     )
-    @ragios_monitor.update(ragios_monitor_params)
+    @ragios_monitor.reload.update(ragios_monitor_params)
     add_email_notifiers
     render json: response.to_json
   end

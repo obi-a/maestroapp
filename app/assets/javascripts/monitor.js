@@ -25,6 +25,7 @@ $(function() {
     var maestroTestUrl = $("#maestro-info").data("maestro-test-url");
     var maestroValidateUrl = $("#maestro-info").data("maestro-url");
     var loadingTemplate = _.template( $("#simple-loader-template").html() );
+    var $sourceCode = $("#source-code");
   }
 
 
@@ -89,6 +90,8 @@ $(function() {
     },
     update: function () {
       var data = {};
+      var sourceCode = myCodeMirror.getValue();
+      $sourceCode.val(sourceCode);
       monitor.$form.serializeArray().map(function(i){data[i.name] = i.value;});
 
       var alert_emails = [];
