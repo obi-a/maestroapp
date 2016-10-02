@@ -16,7 +16,7 @@ class MonitorCreationJob < ActiveJob::Base
           plugin: m.monitor_type,
           every: "#{m.hours}h#{m.minutes}m"
         }
-        options[:browser] = "firefox headless"
+        options[:browser] = "phantomjs"
         options[:exists?] = m.code
         response = client.create(options)
 
