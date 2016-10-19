@@ -206,7 +206,7 @@ $(function() {
       return _.map(data, function(data) {
         return {
           time: ragiosHelper.formatDate(data.time),
-          event_type: data.event_type,
+          event_type: ragiosHelper.formatEventType(data.event_type),
           state: ragiosHelper.formatState(data.state),
           event: ragiosHelper.formatResults(data.event)
         };
