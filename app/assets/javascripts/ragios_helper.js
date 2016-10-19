@@ -12,12 +12,27 @@ var ragiosHelper = {
     formatResults: function (result) {
 
         if( _.isUndefined(result["monitor status"]) ) {
-            console.log(result)
-            try{
-                return _.reduce(_.pairs(result), function( memo, pair ) {
-                    return memo.toString() + "\n" + pair;
-                });
-            } catch (e) { return ""; }
+
+            if(_.isUndefined(result.results)) {
+                try{
+                    return _.reduce(_.pairs(result), function( memo, pair ) {
+                        return memo.toString() + "\n" + pair;
+                    });
+                } catch (e) { return ""; }
+            } else {
+                var results = result.results;
+                var count = 1;
+                return _.reduce(results, function(memo, item) {
+                    var res;
+                    if (item[1] === "exists_as_expected") {
+                        res = "[" + count + "] " + item[0] + " <span class=\"label success\">exists as expected</span>";
+                    } else if (item[1] === "does_not_exist_as_expected") {
+                        res = "[" + count + "] " + item[0] + " <span class=\"label alert\">does not exist as expected</span>";
+                    }
+                    count++;
+                    return memo.toString() + "<br/>" + res;
+                }, " ");
+            }
         } else {
             return result["monitor status"]
         }
