@@ -23,6 +23,14 @@ module DashboardHelper
   def checked(email_notifier, current_notifiers_list)
     current_notifiers_list.include?(email_notifier.email) ? "checked" : ""
   end
+
+  def monitor_type(type)
+    if type == RagiosMonitor::TYPE[:http_check]
+      "HTTP Check"
+    elsif type == RagiosMonitor::TYPE[:real_browser_monitor]
+      "Real Browser Monitor"
+    end
+  end
 end
 
 

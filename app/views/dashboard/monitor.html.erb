@@ -98,7 +98,7 @@
                     <% end %>
                   </div>
                 </div>
-                <% if @monitor.monitor_type == "uptime_monitor" %>
+                <% if @monitor.monitor_type == RagiosMonitor::TYPE[:real_browser_monitor] %>
                   <div class="row">
                     <div class="columns">
                       <div id="validations">

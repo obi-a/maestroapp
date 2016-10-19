@@ -37,9 +37,9 @@
         <% @monitors.each do |monitor| %>
           <tr>
             <td><%= link_to monitor.title, monitor_dashboard_path(monitor) %></td>
-            <td><%= monitor.url %></td>
+            <td><%= link_to monitor.url, monitor_dashboard_path(monitor) %></td>
             <td><%= "#{monitor.hours} hours, #{monitor.minutes} minutes" %></td>
-            <td><%= monitor.monitor_type %></td>
+            <td><%= monitor_type(monitor.monitor_type) %></td>
             <td><%= monitor_status(monitor.status.to_i, monitor.ragiosid, @active_monitors) %></td>
           </tr>
         <% end %>

@@ -6,6 +6,11 @@ class RagiosMonitor < ActiveRecord::Base
 
   STATUSES = %w(pending active cannot_create)
 
+  TYPE = {
+    http_check: "url_monitor",
+    real_browser_monitor: "uptime_monitor"
+  }.freeze
+
   def self.status(value)
     STATUSES.index(value.to_s)
   end
