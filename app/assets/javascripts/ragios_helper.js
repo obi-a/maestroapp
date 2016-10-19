@@ -10,11 +10,17 @@ var ragiosHelper = {
     },
 
     formatResults: function (result) {
-      try{
-        return _.reduce(_.pairs(result), function( memo, pair ) {
-            return memo.toString() + "\n" + pair;
-        });
-      } catch (e) { return ""; }
+
+        if( _.isUndefined(result["monitor status"]) ) {
+            console.log(result)
+            try{
+                return _.reduce(_.pairs(result), function( memo, pair ) {
+                    return memo.toString() + "\n" + pair;
+                });
+            } catch (e) { return ""; }
+        } else {
+            return result["monitor status"]
+        }
     },
 
     formatDate: function (date) {
@@ -34,6 +40,21 @@ var ragiosHelper = {
             return '<span class="label label-primary">active</span>'
         } else if(status === "stopped") {
             return '<span class="label label-warning">stopped</span>'
+        }
+    },
+
+    formatEventType: function(event_type) {
+        switch (event_type) {
+            case "monitor.start":
+                return "start";
+            case "monitor.stop":
+                return "stop";
+            case "monitor.test":
+                return "test";
+            case "monitor.create":
+                return "create";
+            case "monitor.update":
+                return "update";
         }
     },
 
