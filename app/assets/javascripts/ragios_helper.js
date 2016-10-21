@@ -8,17 +8,32 @@ var ragiosHelper = {
     redirect_to: function( path ) {
         window.location.replace( path );
     },
-
+    //TODO: cleanup later
     formatResults: function (result) {
-
         if( _.isUndefined(result["monitor status"]) ) {
-
             if(_.isUndefined(result.results)) {
-                try{
-                    return _.reduce(_.pairs(result), function( memo, pair ) {
-                        return memo.toString() + "\n" + pair;
-                    });
-                } catch (e) { return ""; }
+                if(!_.isUndefined(result.notified)) {
+                    if(result.notified === "resolved") {
+                        return "Notified: <span class=\"label success\">Issue Resolved</span>";
+                    } else if (result.notified === "failed") {
+                        return "Notified: <span class=\"label alert\">Test Failed</span>";
+                    }
+                } else if( !_.isUndefined(result.url_monitor) ) {
+                    if(result.url_monitor === "success") {
+                        return "Status code: "+ result.result + " (OK)";
+                    } else if (result.url_monitor === "failure") {
+                        return result.result;
+                    }
+                } else if( !_.isUndefined(result.error) ) {
+                    return result.error;
+                } else {
+
+                    try{
+                        return _.reduce(_.pairs(result), function( memo, pair ) {
+                            return memo.toString() + "\n" + pair;
+                        });
+                    } catch (e) { return ""; }
+                }
             } else {
                 var results = result.results;
                 var count = 1;
@@ -70,6 +85,8 @@ var ragiosHelper = {
                 return "create";
             case "monitor.update":
                 return "update";
+            case "monitor.notification":
+                return "notification";
         }
     },
 
