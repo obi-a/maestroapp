@@ -106,10 +106,6 @@
                         <div class="row">
                           <div class="columns">
                             <label>Validations & Actions<br/>
-                              <a id="test-monitor" href="javascript:void(0);" class="tiny monitor-actions"><i class="fi-wrench icon"></i>Run</a>
-                              <span data-tooltip aria-haspopup="true" class="has-tip" title="Run current validations & actions">
-                                <i class="fi-info icon"></i>
-                              </span>
                               <div id="editor" name="code"></div>
                             </label>
                             <span id="console"></span>
@@ -118,7 +114,7 @@
                             </script>
                             <script id="results-template" type="text/template">
                               {{ _.each( results, function(i) { }}
-                                <div id="results" class="search-results">{{ if (i[0] !== "error") { }} ({{= _.indexOf(results,i) + 1 }}.) {{ } }}{{= i }}</div>
+                                <div id="results" class="search-results">{{if (i[0] === "error") {  }}{{= i[1] }}{{ } }}{{ if (i[0] !== "error") { }} ({{= _.indexOf(results, i) + 1 }}.) {{ } }} {{ if (i[1] === "exists_as_expected") { }} {{= i[0] }} <span class="label success">exists as expected</span>{{ } else if (i[1] === "does_not_exist_as_expected") {  }} {{= i[0] }} <span class="label alert">does not exists as expected</span>{{ } }}</div>
                               {{ }); }}
                             </script>
                             <%= render "shared/loading_effect" %>
@@ -130,6 +126,9 @@
                 <% end %>
                 <div class="row" style="margin-top:15px;">
                   <div class="columns">
+                    <% if @monitor.monitor_type == RagiosMonitor::TYPE[:real_browser_monitor] %>
+                      <a id="test-monitor" class="button tiny monitor-actions"><i class="fi-wrench icon"></i>Run Script</a>
+                    <% end %>
                     <a id="update-monitor-button" href="#" class="button tiny"><i class="fi-save icon"></i>Update Monitor</a>
                     <a id="test-button" href="#" class="button tiny"><i class="fi-results icon"></i>Test Monitor</a>
                     <a id="start-button" href="#" class="button tiny"><i class="fi-play icon"></i>Start Monitor</a>
