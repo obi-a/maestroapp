@@ -63,7 +63,7 @@ Rails.application.routes.draw do
 
   get 'pages/how_it_works'
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: "registrations" }
 
   devise_scope :user do
     get "/signin" => "devise/sessions#new"

@@ -7,7 +7,7 @@ class AlertEmailVerificationJob < ActiveJob::Base
       notifier = EmailNotifier.find_by_id(email_notifier_id)
       return false unless notifier
       notifier.update_attribute(:token_timestamp, DateTime.now)
-      AlertEmailVerificationMailer.verify(notifier.email, verification_url, firstname)
+      AlertEmailVerificationMailer.verify(notifier.email, verification_url, firstname).deliver_now
     end
   end
 end

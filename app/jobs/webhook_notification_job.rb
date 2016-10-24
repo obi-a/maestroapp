@@ -8,9 +8,9 @@ class WebhookNotificationJob < ActiveJob::Base
       mailing_list = monitor&.email_notifiers&.pluck(:email)
       if mailing_list
         if params[:event].to_sym == :failed
-          NotificationsMailer.failed(mailing_list, params[:monitor], params[:test_result])
+          NotificationsMailer.failed(mailing_list, params[:monitor], params[:test_result]).deliver_now
         elsif params[:event].to_sym == :resolved
-          NotificationsMailer.resolved(mailing_list, params[:monitor], params[:test_result])
+          NotificationsMailer.resolved(mailing_list, params[:monitor], params[:test_result]).deliver_now
         end
       end
     end
