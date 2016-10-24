@@ -34,17 +34,22 @@
         </tr>
       </thead>
       <tbody>
-        <% @monitors.each do |monitor| %>
+        <% unless @monitors.blank? %>
+          <% @monitors.each do |monitor| %>
+            <tr>
+              <td><%= link_to monitor.title, monitor_dashboard_path(monitor) %></td>
+              <td><%= link_to monitor.url, monitor_dashboard_path(monitor) %></td>
+              <td><%= "#{monitor.hours} hours, #{monitor.minutes} minutes" %></td>
+              <td><%= monitor_type(monitor.monitor_type) %></td>
+              <td><%= monitor_status(monitor.status.to_i, monitor.ragiosid, @active_monitors) %></td>
+            </tr>
+          <% end %>
+        <% else %>
           <tr>
-            <td><%= link_to monitor.title, monitor_dashboard_path(monitor) %></td>
-            <td><%= link_to monitor.url, monitor_dashboard_path(monitor) %></td>
-            <td><%= "#{monitor.hours} hours, #{monitor.minutes} minutes" %></td>
-            <td><%= monitor_type(monitor.monitor_type) %></td>
-            <td><%= monitor_status(monitor.status.to_i, monitor.ragiosid, @active_monitors) %></td>
+            <td>You have no monitors. Add your first monitor <a href="<%= new_ragios_monitor_path %>">start here</a></td>
           </tr>
         <% end %>
       </tbody>
     </table>
   </div>
 </div>
-
