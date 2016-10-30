@@ -26,6 +26,7 @@ gem 'treetop'
 gem 'has_secure_token'
 gem 'dalli'
 gem 'memcachier'
+gem 'puma'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
