@@ -1,14 +1,6 @@
 Rails.application.routes.draw do
   get 'webhook/notifications'
 
-  namespace :admin do
-    DashboardManifest::DASHBOARDS.each do |dashboard_resource|
-      resources dashboard_resource
-    end
-
-    root controller: DashboardManifest::ROOT_DASHBOARD, action: :index
-  end
-
   resources :ragios_monitors do
     collection do
       get :events
