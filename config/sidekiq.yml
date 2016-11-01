@@ -3,3 +3,4 @@ production:
   :concurrency: 2
 :queues:
   - default
+  - maestro
