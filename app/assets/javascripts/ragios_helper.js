@@ -103,6 +103,8 @@ var ragiosHelper = {
             return '<span class="label warning">stopped</span>'
         } else if (state === "started")  {
             return '<span class="label info">started</span>'
+        } else if (state == undefined) {
+            return '<span class="label secondary">pending</span>'
         } else {
             return '<span class="label info">' + state + '</span>'
         }

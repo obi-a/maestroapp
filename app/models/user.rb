@@ -58,7 +58,7 @@ class User < ActiveRecord::Base
   end
 
   def cached_find_monitor(ragiosid)
-    Rails.cache.fetch([self.class.name, id, ragiosid, :find_monitor], expires_in: 240.hours) do
+    Rails.cache.fetch([self.class.name, id, ragiosid, :find_monitor], expires_in: cached_event_expires_in(ragiosid)) do
       monitor = self.ragios_monitors.where(ragiosid: ragiosid).first
       client = RagiosMonitor.client
       response = monitor ? client.find(ragiosid) : {}

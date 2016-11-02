@@ -50,8 +50,8 @@ environment ENV['RACK_ENV'] || 'development'
 # ("append") specifies whether the output is appended, the default is
 # "false".
 #
-stdout_redirect 'log/production.log', 'log/production.log'
-stdout_redirect 'log/production.log', 'log/production.log', true
+# stdout_redirect 'log/production.log', 'log/production.log'
+# stdout_redirect 'log/production.log', 'log/production.log', true
 
 # Disable request logging.
 #

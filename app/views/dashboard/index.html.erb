@@ -31,6 +31,7 @@
           <th>Every</th>
           <th>Type</th>
           <th>Status</th>
+          <th>Actions<th>
         </tr>
       </thead>
       <tbody>
@@ -42,6 +43,9 @@
               <td><%= "#{monitor.hours} hours, #{monitor.minutes} minutes" %></td>
               <td><%= monitor_type(monitor.monitor_type) %></td>
               <td><%= monitor_status(monitor.status.to_i, monitor.ragiosid, @active_monitors) %></td>
+              <td>
+                <%= link_to "<i class=\"fi-trash\"></i>".html_safe, ragios_monitor_path(monitor), title: "Delete this monitor", data: {confirm: "Are you sure you want to delete the monitor: (#{monitor.title})?"}, method: :delete %>
+              </td>
             </tr>
           <% end %>
         <% else %>
