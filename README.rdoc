@@ -9,6 +9,7 @@ Create DB in development If needed most likely not needed in development, since 
  ```
 
 Run Rake db migrate
+
 ```
  docker-compose -f docker-compose.dev.yml run \
   --entrypoint "bundle exec rake db:migrate" \
@@ -16,6 +17,7 @@ Run Rake db migrate
  ```
 
 Access Rails console:
+
 ```
  docker-compose -f docker-compose.dev.yml run \
   --entrypoint "bundle exec rails c" \

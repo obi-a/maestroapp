@@ -79,6 +79,8 @@ var ragiosHelper = {
                 return "start";
             case "monitor.stop":
                 return "stop";
+            case "monitor.triggered":
+                return "triggered";
             case "monitor.test":
                 return "test";
             case "monitor.create":

@@ -10,13 +10,12 @@ class MonitorCreationJob < ActiveJob::Base
         options = {
           monitor: m.title,
           url: m.url,
-          via: "webhook_notifier",
-          webhook_url: webhook_url,
-          user: m.user.email,
+          via: "log_notifier",
+          contact: m.user.email,
           plugin: m.monitor_type,
           every: "#{m.hours}h#{m.minutes}m"
         }
-        options[:browser] = "phantomjs"
+        options[:browser] = "firefox"
         options[:exists?] = m.code
         response = client.create(options)
 

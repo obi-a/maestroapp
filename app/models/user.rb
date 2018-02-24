@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   def cached_active_monitors
     Rails.cache.fetch([self.class.name, id, :active_monitors], expires_in: 240.hours) do
       client = RagiosMonitor.client
-      client.where(user: self.email)
+      client.where(contact: self.email)
     end
   end
 
