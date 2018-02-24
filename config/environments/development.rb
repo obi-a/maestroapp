@@ -38,7 +38,9 @@ Rails.application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
-  config.action_mailer.perform_deliveries = true
+  config.action_mailer.perform_deliveries = false
+
+  config.action_mailer.delivery_method = :letter_opener
 
   config.action_mailer.default_options = {
     :from => "support@southmunn.com"

@@ -36,6 +36,8 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
+    addressable (2.5.2)
+      public_suffix (>= 2.0.2, < 4.0)
     arel (6.0.4)
     bcrypt (3.1.10)
     better_errors (2.1.1)
@@ -110,6 +112,10 @@ GEM
       railties (>= 3.1.0)
       turbolinks
     json (1.8.6)
+    launchy (2.4.3)
+      addressable (~> 2.3)
+    letter_opener (1.6.0)
+      launchy (~> 2.2)
     libv8 (3.16.14.19-x86_64-linux)
     loofah (2.2.0)
       crass (~> 1.0.2)
@@ -135,6 +141,7 @@ GEM
       slop (~> 3.4)
     pry-rails (0.3.4)
       pry (>= 0.9.10)
+    public_suffix (3.0.2)
     puma (3.6.0)
     rack (1.6.8)
     rack-mini-profiler (0.10.7)
@@ -260,6 +267,7 @@ DEPENDENCIES
   jquery-datatables-rails (~> 3.3.0)
   jquery-rails
   jquery-turbolinks
+  letter_opener
   memcachier
   pg (~> 0.18.3)
   pry-rails
