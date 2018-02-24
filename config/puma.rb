@@ -71,7 +71,7 @@ environment ENV['RACK_ENV'] || 'development'
 #
 # The default is "tcp://0.0.0.0:9292".
 #
-# bind 'tcp://0.0.0.0:9292'
+bind  ENV['MAESTROAPP_WEB_SERVER_ADDRESS'] || 'tcp://127.0.0.1:3000'
 # bind 'unix:///var/run/puma.sock'
 # bind 'unix:///var/run/puma.sock?umask=0111'
 # bind 'ssl://127.0.0.1:9292?key=path_to_key&cert=path_to_cert'

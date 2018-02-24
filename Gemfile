@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.3.0'
+ruby '2.3.6'
 
 #gem "administrate", "~> 0.1.1"
 gem "bugsnag"
@@ -28,6 +28,7 @@ gem 'dalli'
 gem 'memcachier'
 gem 'puma'
 gem 'rake','< 11.0'
+gem 'therubyracer'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

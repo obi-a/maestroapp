@@ -1,0 +1,54 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: maestroapp_development
+      POSTGRES_USER: maestroapp
+      POSTGRES_PASSWORD: maestroapp
+    restart: always
+
+  redis:
+    image: redis
+    ports:
+    - "6379:6379"
+
+  sidekiq:
+    build: .
+    links:
+      - db:db
+      - redis:redis
+    volumes:
+      - .:/usr/src/maestroapp
+    environment:
+      DB_HOST: db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SECRET_KEY_BASE:
+    ports:
+      - "3004:3004"
+    tty: true
+    stdin_open: true
+    entrypoint: bundle exec sidekiq
+
+  web:
+    build: .
+    links:
+      - db:db
+      - redis:redis
+    volumes:
+      - .:/usr/src/maestroapp
+    environment:
+      MAESTROAPP_WEB_SERVER_ADDRESS: 'tcp://0.0.0.0:3000'
+      DB_HOST: db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SECRET_KEY_BASE:
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    tty: true
+    stdin_open: true
+    entrypoint: bundle exec puma -C config/puma.rb -e development
