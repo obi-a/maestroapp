@@ -7,7 +7,7 @@ gem "bugsnag"
 gem 'codemirror-rails'
 gem 'devise'
 gem 'foundation-rails'
-gem 'rails', '4.2.5.1'
+gem 'rails', '~> 4.2.7.1'
 gem 'pg', '~> 0.18.3'
 gem 'sidekiq'
 gem 'rolify'
@@ -49,7 +49,7 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'pry-rails'
-  gem 'rack-mini-profiler'
+  gem 'rack-mini-profiler', '~> 0.10.1'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
