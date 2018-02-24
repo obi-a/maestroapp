@@ -5,12 +5,19 @@ Create DB in development If needed most likely not needed in development, since 
 ```
  docker-compose -f docker-compose.dev.yml run \
   --entrypoint "bundle exec rake db:create" \
-  --rm  web
+  --rm  maestroapp
  ```
 
 Run Rake db migrate
 ```
  docker-compose -f docker-compose.dev.yml run \
   --entrypoint "bundle exec rake db:migrate" \
-  --rm  web
+  --rm  maestroapp
+ ```
+
+Access Rails console:
+```
+ docker-compose -f docker-compose.dev.yml run \
+  --entrypoint "bundle exec rails c" \
+  --rm  maestroapp
  ```
