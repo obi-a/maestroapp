@@ -10,7 +10,7 @@ class MonitorCreationJob < ActiveJob::Base
         options = {
           monitor: m.title,
           url: m.url,
-          via: "log_notifier",
+          via: "ses",
           contact: m.user.email,
           plugin: m.monitor_type,
           every: "#{m.hours}h#{m.minutes}m"

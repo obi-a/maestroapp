@@ -54,11 +54,13 @@ var ragiosHelper = {
     },
 
     formatDate: function (date) {
-        return moment(date).format('llll');
+        //return moment(date).format('llll');
+        return date + "</br>(" + moment.utc(date).fromNow() + ")";
     },
 
     formatDateSmall: function (date) {
-        return moment(date).format('L LT');
+        //return moment(date).format('L LT');
+        return date + "</br>(" + moment.utc(date).fromNow() + ")";
     },
 
     formatEventId: function (event_id) {
