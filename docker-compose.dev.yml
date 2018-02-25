@@ -11,13 +11,9 @@ services:
 
   redis:
     image: redis
-    ports:
-    - "6379:6379"
 
   memcached:
     image: memcached
-    ports:
-      - "11211:11211"
 
   sidekiq:
     build: .
@@ -74,10 +70,6 @@ services:
 
   couchdb:
     image: "apache/couchdb:1.7.1"
-    expose:
-      - "5984"
-    ports:
-      - 5984:5984
 
   database_setup:
     image: "obiora/maestro:latest"
