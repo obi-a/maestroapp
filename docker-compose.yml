@@ -1,0 +1,248 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_DB: maestroapp_development
+      POSTGRES_USER: maestroapp
+      POSTGRES_PASSWORD: maestroapp
+    restart: always
+
+  redis:
+    image: redis
+
+  memcached:
+    image: memcached
+
+  sidekiq:
+    image: "obiora/maestroapp:latest"
+    links:
+      - db:db
+      - redis:redis
+      - memcached:memcached
+      - maestro:maestro
+    volumes:
+      - .:/usr/src/maestroapp
+    environment:
+      DB_HOST: db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SECRET_KEY_BASE:
+      MEMCACHE_SERVERS: memcached
+      RAGIOS_SERVER_USERNAME:
+      RAGIOS_SERVER_PASSWORD:
+      RAGIOS_SERVER_URL: maestro
+      RAGIOS_SERVER_PORT: 5041
+    tty: true
+    stdin_open: true
+    entrypoint: bundle exec sidekiq
+
+  maestroapp:
+    image: "obiora/maestroapp:latest"
+    links:
+      - db:db
+      - redis:redis
+      - memcached:memcached
+      - maestro:maestro
+    volumes:
+      - .:/usr/src/maestroapp
+    environment:
+      MAESTROAPP_WEB_SERVER_ADDRESS: 'tcp://0.0.0.0:3000'
+      DB_HOST: db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      SECRET_KEY_BASE:
+      MEMCACHE_SERVERS: memcached
+      RAGIOS_SERVER_USERNAME:
+      RAGIOS_SERVER_PASSWORD:
+      RAGIOS_SERVER_URL: maestro
+      RAGIOS_SERVER_PORT: 5041
+    expose:
+      - "3000"
+    ports:
+      - "3000:3000"
+    tty: true
+    stdin_open: true
+    entrypoint: bundle exec puma -C config/puma.rb -e development
+
+  couchdb:
+    image: "apache/couchdb:1.7.1"
+
+  database_setup:
+    image: "obiora/maestro:latest"
+    links:
+      - couchdb:couchdb
+    environment:
+      COUCHDB_ADMIN_USERNAME:
+      COUCHDB_ADMIN_PASSWORD:
+    tty: true
+    stdin_open: true
+    entrypoint: bundle exec ruby bin/database_setup.rb
+
+  firefox:
+    image: selenium/node-firefox:3.8.1-erbium
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - hub
+    environment:
+      HUB_HOST: hub
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:5555"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  hub:
+    image: selenium/hub:3.8.1-erbium
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "http://localhost:4444/grid/api/proxy"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  maestro:
+    image: "obiora/maestro:latest"
+    depends_on:
+      - database_setup
+    links:
+      - couchdb:couchdb
+      - recurring_jobs:recurring_jobs
+      - events:events
+      - firefox:firefox
+    environment:
+      RAGIOS_RECURRING_JOBS_RECEIVER_ADDRESS: recurring_jobs
+      RAGIOS_EVENTS_RECEIVER_ADDRESS: events
+      RAGIOS_WEB_SERVER_ADDRESS: 'tcp://0.0.0.0:5041'
+      RAGIOS_WEB_SERVER_ENV: production
+      RAGIOS_ENV: production
+      RAGIOS_LOG_LEVEL: info
+      SES_AWS_ACCESS_KEY_ID:
+      SES_AWS_SECRET_ACCESS_KEY:
+      AWS_SES_SEND_FROM:
+      AWS_SES_ENDPOINT:
+      RAGIOS_ADMIN_USERNAME:
+      RAGIOS_ADMIN_PASSWORD:
+      RAGIOS_AUTHENTICATION:
+      RAGIOS_AUTH_TIMEOUT:
+      COUCHDB_ADMIN_USERNAME:
+      COUCHDB_ADMIN_PASSWORD:
+      S3_AWS_ACCESS_KEY_ID:
+      S3_AWS_SECRET_ACCESS_KEY:
+      RAGIOS_HERCULES_S3_DIR:
+      RAGIOS_HERCULES_ENABLE_SCREENSHOTS:
+      BROWSER: firefox
+    expose:
+      - "5041"
+    ports:
+      - "5041:5041"
+    tty: true
+    stdin_open: true
+    entrypoint: bundle exec pumactl -F server.rb start
+
+  recurring_jobs:
+    image: "obiora/maestro:latest"
+    depends_on:
+      - database_setup
+    links:
+      - couchdb:couchdb
+      - events:events
+    environment:
+      RAGIOS_RECURRING_JOBS_RECEIVER_ADDRESS: '0.0.0.0'
+      RAGIOS_EVENTS_RECEIVER_ADDRESS: events
+      RAGIOS_WORKERS_PUSHER_ADDRESS: '0.0.0.0'
+      RAGIOS_ENV: production
+      RAGIOS_LOG_LEVEL: info
+      SES_AWS_ACCESS_KEY_ID:
+      SES_AWS_SECRET_ACCESS_KEY:
+      AWS_SES_SEND_FROM:
+      AWS_SES_ENDPOINT:
+      COUCHDB_ADMIN_USERNAME:
+      COUCHDB_ADMIN_PASSWORD:
+    expose:
+      - "5042"
+      - "5043"
+    tty: true
+    stdin_open: true
+    entrypoint: bundle exec ruby bin/recurring_jobs_ctl.rb run
+
+  workers:
+    image: "obiora/maestro:latest"
+    depends_on:
+      - database_setup
+    links:
+      - couchdb:couchdb
+      - events:events
+      - recurring_jobs:recurring_jobs
+      - notifications:notifications
+      - firefox:firefox
+    environment:
+      RAGIOS_RECURRING_JOBS_RECEIVER_ADDRESS: recurring_jobs
+      RAGIOS_EVENTS_RECEIVER_ADDRESS: events
+      RAGIOS_WORKERS_PUSHER_ADDRESS: recurring_jobs
+      RAGIOS_NOTIFICATIONS_RECEIVER_ADDRESS: notifications
+      RAGIOS_ENV: production
+      RAGIOS_LOG_LEVEL: info
+      SES_AWS_ACCESS_KEY_ID:
+      SES_AWS_SECRET_ACCESS_KEY:
+      AWS_SES_SEND_FROM:
+      AWS_SES_ENDPOINT:
+      COUCHDB_ADMIN_USERNAME:
+      COUCHDB_ADMIN_PASSWORD:
+      S3_AWS_ACCESS_KEY_ID:
+      S3_AWS_SECRET_ACCESS_KEY:
+      RAGIOS_HERCULES_S3_DIR:
+      RAGIOS_HERCULES_ENABLE_SCREENSHOTS:
+      BROWSER: firefox
+    tty: true
+    stdin_open: true
+    entrypoint: bundle exec ruby bin/workers_ctl.rb run
+
+  events:
+    image: "obiora/maestro:latest"
+    depends_on:
+      - database_setup
+    links:
+      - couchdb:couchdb
+    environment:
+      RAGIOS_EVENTS_RECEIVER_ADDRESS: '0.0.0.0'
+      RAGIOS_ENV: production
+      RAGIOS_LOG_LEVEL: info
+      COUCHDB_ADMIN_USERNAME:
+      COUCHDB_ADMIN_PASSWORD:
+    expose:
+      - "5045"
+    tty: true
+    stdin_open: true
+    entrypoint: bundle exec ruby bin/events_ctl.rb run
+
+  notifications:
+    image: "obiora/maestro:latest"
+    depends_on:
+      - database_setup
+    links:
+      - couchdb:couchdb
+      - events:events
+      - firefox:firefox
+    environment:
+      RAGIOS_NOTIFICATIONS_RECEIVER_ADDRESS: '0.0.0.0'
+      RAGIOS_EVENTS_RECEIVER_ADDRESS: events
+      RAGIOS_ENV: production
+      RAGIOS_LOG_LEVEL: info
+      SES_AWS_ACCESS_KEY_ID:
+      SES_AWS_SECRET_ACCESS_KEY:
+      AWS_SES_SEND_FROM:
+      AWS_SES_ENDPOINT:
+      COUCHDB_ADMIN_USERNAME:
+      COUCHDB_ADMIN_PASSWORD:
+      S3_AWS_ACCESS_KEY_ID:
+      S3_AWS_SECRET_ACCESS_KEY:
+      RAGIOS_HERCULES_S3_DIR:
+      RAGIOS_HERCULES_ENABLE_SCREENSHOTS:
+      BROWSER: firefox
+    expose:
+      - "5044"
+    tty: true
+    stdin_open: true
+    entrypoint: bundle exec ruby bin/notifications_ctl.rb run
