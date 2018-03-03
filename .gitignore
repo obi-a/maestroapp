@@ -16,3 +16,4 @@
 .env
 .env.*
 !.env.example
+/.docker-cloud.secret.yaml

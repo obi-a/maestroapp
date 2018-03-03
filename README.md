@@ -27,3 +27,8 @@ Access Rails console:
   --entrypoint "bundle exec rails c" \
   --rm  maestroapp
 ```
+
+Access Rails console from docker-cloud
+```
+docker-cloud exec maestroapp-1 bundle exec rails c
+```

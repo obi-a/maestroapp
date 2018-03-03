@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  db:
+  postgres:
     image: postgres
     environment:
       POSTGRES_DB: maestroapp_development
@@ -15,17 +15,28 @@ services:
   memcached:
     image: memcached
 
+  maestroapp_database_setup:
+    image: "obiora/maestroapp:latest"
+    links:
+      - postgres:postgres
+    environment:
+      DB_HOST: postgres
+    tty: true
+    stdin_open: true
+    entrypoint: bundle exec rake db:migrate
+
   sidekiq:
     build: .
     links:
-      - db:db
+      - maestroapp_database_setup
+      - postgres:postgres
       - redis:redis
       - memcached:memcached
       - maestro:maestro
     volumes:
       - .:/usr/src/maestroapp
     environment:
-      DB_HOST: db
+      DB_HOST: postgres
       REDIS_HOST: redis
       REDIS_PORT: 6379
       SECRET_KEY_BASE:
@@ -43,7 +54,8 @@ services:
   maestroapp:
     build: .
     links:
-      - db:db
+      - maestroapp_database_setup
+      - postgres:postgres
       - redis:redis
       - memcached:memcached
       - maestro:maestro
@@ -51,7 +63,7 @@ services:
       - .:/usr/src/maestroapp
     environment:
       MAESTROAPP_WEB_SERVER_ADDRESS: 'tcp://0.0.0.0:3000'
-      DB_HOST: db
+      DB_HOST: postgres
       REDIS_HOST: redis
       REDIS_PORT: 6379
       SECRET_KEY_BASE:
