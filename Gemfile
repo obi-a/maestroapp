@@ -29,6 +29,9 @@ gem 'memcachier'
 gem 'puma'
 gem 'rake','< 11.0'
 gem 'therubyracer'
+gem 'rails-html-sanitizer','~> 1.0.4'
+gem 'sprockets','~> 3.7.2'
+gem 'loofah','~> 2.2.1'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

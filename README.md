@@ -1,4 +1,4 @@
-== README
+README
 
 First time setup: Build the containers
 ```
