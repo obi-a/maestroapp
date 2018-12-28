@@ -7,7 +7,7 @@ gem "bugsnag"
 gem 'codemirror-rails'
 gem 'devise'
 gem 'foundation-rails'
-gem 'rails', '~> 4.2.7.1'
+gem 'rails', '~> 4.2.11'
 gem 'pg', '~> 0.18.3'
 gem 'sidekiq'
 gem 'rolify'
