@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   get 'webhook/notifications'
 
+  require 'sidekiq/web'
+  mount Sidekiq::Web => '/sidekiq'
+
   resources :ragios_monitors do
     collection do
       get :events

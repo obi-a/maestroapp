@@ -1,12 +1,13 @@
 source 'https://rubygems.org'
 
-ruby '2.3.6'
+ruby '2.4.1'
 
 #gem "administrate", "~> 0.1.1"
 gem "bugsnag"
 gem 'codemirror-rails'
 gem 'devise'
 gem 'foundation-rails'
+gem 'autoprefixer-rails', '8.6.5'
 gem 'rails', '~> 4.2.11'
 gem 'pg', '~> 0.18.3'
 gem 'sidekiq'
@@ -31,7 +32,9 @@ gem 'rake','< 11.0'
 gem 'therubyracer'
 gem 'rails-html-sanitizer','~> 1.0.4'
 gem 'sprockets','~> 3.7.2'
+gem 'sprockets-es6'
 gem 'loofah','~> 2.2.1'
+#gem 'rack', '>= 2.0.6'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

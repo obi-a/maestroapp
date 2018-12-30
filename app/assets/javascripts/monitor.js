@@ -236,21 +236,20 @@ $(function() {
       "allevents" : "allEvents"
     },
     monitor: function() {
-      $allEventsTab.removeClass('active');
-      $allEvents.removeClass('active');
+      $allEventsTab.removeClass('is-active');
+      $allEvents.removeClass('is-active');
 
-      $monitorsTab.addClass('active');
-      $monitor.addClass('active');
+      $monitorsTab.addClass('is-active');
+      $monitor.addClass('is-active');
     },
     allEvents: function() {
-      $monitorsTab.removeClass('active');
-      $monitor.removeClass('active');
+      $monitorsTab.removeClass('is-active');
+      $monitor.removeClass('is-active');
 
-      $allEventsTab.addClass('active');
-      $allEvents.addClass('active');
+      $allEventsTab.addClass('is-active');
+      $allEvents.addClass('is-active');
     }
   });
-
 
   $( "#start-button" ).on("click", function() { monitor.start(); });
   $( "#stop-button" ).on("click", function() { monitor.stop(); });
@@ -259,10 +258,18 @@ $(function() {
   $( "#update-monitor-button" ).on("click", function() { monitor.update(); });
   $("#test-monitor").on("click", Maestro.test);
 
+  $(document).on("page:change", function(){
+    Backbone.history.stop();
+    Backbone.history.start();
+  });
+
   Util.init()
   monitor.init()
   allEvents.buildTable();
-
-  var monitorRouter = new MonitorRouter();
-  Backbone.history.start();
+/*
+  if (!Backbone.History.started) {
+    var monitorRouter = new MonitorRouter();
+    Backbone.history.start();
+  }
+*/
 });

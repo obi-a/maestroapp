@@ -82,6 +82,10 @@ services:
 
   couchdb:
     image: "apache/couchdb:1.7.1"
+    expose:
+      - "5984"
+    ports:
+      - "5984:5984"
 
   database_setup:
     image: "obiora/maestro:latest"
@@ -150,8 +154,8 @@ services:
       SES_AWS_SECRET_ACCESS_KEY:
       AWS_SES_SEND_FROM:
       AWS_SES_ENDPOINT:
-      RAGIOS_ADMIN_USERNAME:
-      RAGIOS_ADMIN_PASSWORD:
+      RAGIOS_ADMIN_USERNAME: admin
+      RAGIOS_ADMIN_PASSWORD: trusted
       RAGIOS_AUTHENTICATION:
       RAGIOS_AUTH_TIMEOUT:
       COUCHDB_ADMIN_USERNAME:
