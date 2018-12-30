@@ -4,40 +4,16 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><%= content_for?(:title) ? yield(:title) : "foundation-rails" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
 
     <%= stylesheet_link_tag    "application" %>
-    <%= javascript_include_tag "vendor/modernizr" %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
 
-  <body data-no-turbolink>
-    <nav class="top-bar" data-topbar role="navigation">
-      <ul class="title-area">
-        <li class="name">
-          <h1><a href="<%= unauthenticated_root_path %>">Maestro</a></h1>
-        </li>
-      </ul>
+  <body>
 
-      <section class="top-bar-section">
-        <!-- Right Nav Section -->
-        <ul class="right">
+    <%= yield %>
 
-          <% if user_signed_in? %>
-            <li><%= link_to "Account", edit_user_registration_path %></li>
-            <li><%= link_to "Notifications", notifications_dashboard_index_path %></li>
-            <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
-          <% else %>
-            <li <%if @current_page == :about %> class="active" <% end %> ><a href="#">About</a></li>
-            <li <%if @current_page == :signup %> class="active" <% end %> ><a href="<%= signup_path %>">Sign up</a></li>
-            <li <%if @current_page == :signin %> class="active" <% end %>><a href="<%= signin_path %>">Sign in</a></li>
-          <% end %>
-        </ul>
-      </section>
-    </nav>
-    <section class="content">
-      <%= yield %>
-    </section>
   </body>
 </html>

@@ -29,15 +29,16 @@
     </script>
   </div>
 </div>
+
 <div class="row">
   <div class="column">
     <div class="panel">
-      <ul class="tabs" id="monitor-tab" data-tab>
-        <li id="monitors-tab" class="tab-title active"><a id="monitor-link" href="#monitor"><i class="fi-widget icon"></i>Monitor</a></li>
-        <li id="all-events-tab" class="tab-title"><a id="all-events-link" href="#all-events"><i class="fi-graph-trend icon"></i>Events</a></li>
+      <ul class="tabs" id="monitor-tab" data-tabs>
+        <li id="monitors-tab" class="tabs-title is-active"><a id="monitor-link" data-tabs-target="monitor" aria-selected="true" href="#monitor"><i class="fi-widget icon"></i>Monitor</a></li>
+        <li id="all-events-tab" class="tabs-title"><a id="all-events-link" data-tabs-target="all-events" href="#all-events"><i class="fi-graph-trend icon"></i>Events</a></li>
       </ul>
-      <div class="tabs-content">
-        <div class="content active" id="monitor">
+      <div class="tabs-content" data-tabs-content="monitor-tab">
+        <div class="tabs-panel is-active" id="monitor">
           <div class="row">
             <div class="column">
               <form id="monitor-form">
@@ -140,7 +141,7 @@
             </div>
           </div>
         </div>
-        <div class="content" id="all-events">
+        <div class="tabs-panel content" id="all-events">
           <div class="row">
             <div class="columns">
               <table  id="all-events-datatable" >
