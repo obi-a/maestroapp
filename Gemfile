@@ -5,7 +5,7 @@ ruby '2.4.1'
 #gem "administrate", "~> 0.1.1"
 gem "bugsnag"
 gem 'codemirror-rails'
-gem 'devise'
+gem "devise", ">= 4.6.0"
 gem 'foundation-rails'
 gem 'autoprefixer-rails', '8.6.5'
 gem 'rails', '~> 4.2.11'
