@@ -33,7 +33,7 @@ gem 'therubyracer'
 gem 'rails-html-sanitizer','~> 1.0.4'
 gem 'sprockets','~> 3.7.2'
 gem 'sprockets-es6'
-gem 'loofah','~> 2.2.1'
+gem 'loofah','~> 2.3.1'
 #gem 'rack', '>= 2.0.6'
 
 # Use ActiveModel has_secure_password
